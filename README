@@ -1,0 +1,56 @@
+# [Trello board](https://trello.com/b/TIE3R7EW/engineering)
+# [Dev Site(heroku)](https://caramel-test.herokuapp.com)
+# [Prod Site(heroku)](https://caramel-auto.herokuapp.com)
+# [Database(mLab)](https://caramel-admin.herokuapp.com)
+MongoDB Link<br/>
+mongodb://siyiz:carma2018@ds149960.mlab.com:49960/carma
+
+## important modules
+- "@google/maps" -> map
+- "bcrypt-nodejs" -> encoding password 
+- "fast-csv" -> csv import
+- "google-distance-matrix" -> calculate distance
+- "helmet" -> security
+- "html-pdf" -> pdf conversion
+- "mongoose" -> mongoDB connection
+- "multer" -> file upload
+- "nodemailer" -> email service
+- "passport" -> signup signin
+- "raven" -> error detector
+- "snyk" -> dependency check
+
+## models
+- customer
+  - customer schema
+- shop
+  - In testing, appointment, order, quote, invoice schemas
+  - Everything else
+  
+## views(EJS templating engine)
+- calendar
+- customer views
+- common headers
+- shop views
+- template for email
+- index, reset, forgot password page
+  
+## public
+- css(css files)
+- javascripts(jquery/angularJS script files)
+    - js for customer
+    - js for signup signin
+    - js for shop
+
+## routes(RESTful API)
+- customer url
+- shop url
+- index, reset, forgot password, activate
+
+## functionality
+- csv import
+- check login status
+- decimal number
+- global search
+
+## config
+- passport strategy for customer and shop

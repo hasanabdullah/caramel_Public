@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+    <title>My Friends</title>
+    <link rel="stylesheet" type="text/css" href="/css/customer-profile-styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="/fb-login.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="header-top">
+    <a href="/" class="carma" style="line-height: 60px;">car</a><a href="/" class="guys"
+                                                                   style="line-height: 60px;">amel</a>
+    <div class="header-right">
+        <a href="#about">About</a>
+        <a onClick=fbLogout()>Log Out</a>
+    </div>
+</div>
+
+<% include partials/headers/customer-friends.ejs %>
+
+<div class="top-label">
+    <h1>My Friends</h1>
+    <h>Your Friends Who Are Using This Application:</h>
+    <br>
+    <p id="friends"></p>
+    <button onClick=fbSend()>Invite friends from Facebook</button>
+</div>
+
+</body>
+</html>

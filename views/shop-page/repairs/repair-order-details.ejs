@@ -1,0 +1,885 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REPAIR ORDERS - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="/css/responsive-table-styles.css">
+
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+    <script type="text/javascript" src="/public/javascripts/shop/order-detail.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script type="text/javascript" src="/tax.js"></script>
+</head>
+
+<body>
+
+<% include partials/headers/repairs.ejs %>
+<!--SIDE LINKS-->
+
+
+<!--ORDER DETAILS BOX-->
+
+<div class="container-main">
+    <% include partials/search-bar.ejs %>
+
+    <h2>Repair Order Details</h2>
+
+
+    <!--ORDER STATUS BOX - 2-->
+
+    <% if (order.status) { %>
+        <h4>Order Status: Closed</h4>
+        <button class="editStatus" value="Closed">Open Order</button>
+    <% } else { %>
+        <h4>Order Status: Open</h4>
+        <button class="editStatus" value="In progress">Close Order</button>
+    <% } %>
+
+    <!--CUSTOMER DETAILS-->
+
+    <div class="container-body">
+        <h5>Customer Info</h5>
+
+        <table class="table-spacing" style="margin-top:0px;margin-bottom: 25px">
+            <tr>
+                <td>
+                    <% if (order.customer.accountType === 'personal') { %>
+                        <h3><a style="color: rgb(35, 174, 255);"
+                               href="/shop/<%= user._id %>/customer/<%= order.customer._id %>"><%= order.customer.firstName %> <%=
+                                    order.customer.lastName %></a></h3>
+                    <% } else { %>
+                        <h3><a style="color: rgb(35, 174, 255);"
+                               href="/shop/<%= user._id %>/customer/<%= order.customer._id %>"><%= order.customer.companyName %></a>
+                        </h3>
+                    <% } %>
+                    <h4>Name</h4>
+                </td>
+                <td>
+                    <h3><%= order.customer.phone %></h3>
+                    <h4>Phone</h4>
+                </td>
+                <td>
+                    <h3><%= order.customer.address %></h3>
+                    <h4>Address</h4>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3><%= order.vehicle.year %> <%= order.vehicle.make %> <%= order.vehicle.model %></h3>
+                    <h4>Vehicle</h4>
+                </td>
+                <td>
+                    <h3><%= order.vehicle.license %></h3>
+                    <h4>Plate Number</h4>
+                </td>
+                <td>
+                    <h3><%= order.vehicle.VIN %></h3>
+                    <h4>vin</h4>
+                </td>
+            </tr>
+        </table>
+
+        <h5>Order Tracking</h5>
+        <table class="table-spacing">
+            <% if (!order.status) { %>
+                <tr>
+                    <td>
+                        <% if (order.startMileage !== undefined) { %>
+                            <input type="number" value="<%= order.startMileage %>" id="startMileage"
+                                   style="width: 150px"/>
+                            <h4>Starting Mileage</h4>
+                        <% } else { %>
+                            <input type="number" value="" id="startMileage" style="width: 150px"/>
+                            <h4>Starting Mileage</h4>
+                        <% } %>
+                    </td>
+                    <td>
+                        <% if (order.endMileage !== undefined) { %>
+                            <input type="number" value="<%= order.endMileage %>" id="endMileage" style="width: 150px"/>
+                            <h4>Ending Mileage</h4>
+                        <% } else { %>
+                            <input type="number" value="" id="endMileage" style="width: 150px"/>
+                            <h4>Ending Mileage</h4>
+                        <% } %>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="startTime" id="startTime" style="width: 150px"
+                               value="<%= order.dateStarted.toLocaleDateString('en-US') %>"/>
+                        <h4>Start Date</h4>
+                    </td>
+                    <td>
+                        <% if (order.dateEnded == undefined) { %>
+                            <input type="text" name="endTime" id="endTime" style="width: 150px"/>
+                        <% } else { %>
+                            <input type="text" name="endTime" id="endTime" style="width: 150px"
+                                   value="<%= order.dateEnded.toLocaleDateString('en-US') %>"/>
+                        <% } %>
+                        <h4>End Date</h4>
+                    </td>
+                </tr>
+            <tr>
+                <% } else { %>
+            <tr>
+                <td>
+                    <% if (order.startMileage !== undefined) { %>
+                        <%= order.startMileage %>
+                        <h4>Starting Mileage</h4>
+                    <% } else { %>
+                        <h4>Starting Mileage</h4>
+                    <% } %>
+                </td>
+                <td>
+                    <% if (order.endMileage !== undefined) { %>
+                        <%= order.endMileage %>
+                        <h4>Ending Mileage</h4>
+                    <% } else { %>
+                        <h4>Ending Mileage</h4>
+                    <% } %>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <%= order.dateStarted.toLocaleDateString('en-US') %>
+                    <h4>Start Date</h4>
+                </td>
+                <td>
+                    <% if (order.dateEnded === undefined) { %>
+                    <% } else { %>
+                        <%= order.dateEnded.toLocaleDateString('en-US') %>
+                    <% } %>
+                    <h4>End Date</h4>
+                </td>
+            </tr>
+            <tr>
+                <% } %>
+
+            </tr>
+        </table>
+    </div>
+
+    <!--NOTES SECTION-->
+    <h2>Notes</h2>
+    <div class="container-body">
+
+        <!--BODY CONTENT-->
+        <div id="tags" onclick="this.contentEditable=true;" onblur="this.contentEditable=false;">
+            <% if (order.tags === '' || order.tags === undefined) { %>
+                <h5 style="font-style: italic">Click to add notes/key tags</h5>
+            <% } else { %>
+                <h5> <%= order.tags %></h5>
+            <% } %>
+        </div>
+    </div>
+
+    <!--ISSUES BOX-->
+    <h2>Issues</h2>
+
+    <% if (!order.status) { %>
+        <div class="container-body">
+            <table id="issueTable" class="cell-border compact display">
+
+                <!--ISSUE TABLE HEADINGS-->
+
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>COMPLAINT</th>
+                    <th>CAUSE</th>
+                    <th>CORRECTION</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--ISSUES TABLE BODY-->
+
+                <% for(var i = 0; i < order.issue.length; i++) { %>
+                    <tr>
+                        <td><%= i + 1 %></td>
+                        <td>
+                    <textarea class="editComplaint" id="<%= order.issue[i]._id %>">
+                        <%= order.issue[i].complaint %>
+                    </textarea>
+                        </td>
+                        <td>
+                    <textarea class="editCause" id="<%= order.issue[i]._id %>">
+                        <%= order.issue[i].cause %>
+                    </textarea>
+                        </td>
+                        <td>
+                    <textarea class="editCorrection" id="<%= order.issue[i]._id %>">
+                        <%= order.issue[i].correction %>
+                    </textarea>
+                        </td>
+                        <td>
+                            <button type="submit" class="button-normal red no-margin" id="<%= order.issue[i]._id %>"
+                                    name="deleteIssue">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                <% } %>
+
+                <!--NEW ISSUE ROW-->
+
+                <tr id="newIssue">
+                    <td><%= order.issue.length + 1 %></td>
+                    <td>
+                        <textarea id="addComplaint" class="addingIssue"></textarea>
+                    </td>
+                    <td>
+                        <textarea id="addCause" class="addingIssue"></textarea>
+                    </td>
+                    <td>
+                        <textarea id="addCorrection" class="addingIssue"></textarea>
+                    </td>
+                    <td>
+                        Insert New Issue
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <div class="container-body">
+            <table id="issueTable" class="cell-border compact display">
+
+                <!--ISSUE TABLE HEADINGS-->
+
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>COMPLAINT</th>
+                    <th>CAUSE</th>
+                    <th>CORRECTION</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--ISSUES TABLE BODY-->
+
+                <% for(var i = 0; i < order.issue.length; i++) { %>
+                    <tr>
+                        <td><%= i + 1 %></td>
+                        <td>
+                            <%= order.issue[i].complaint %>
+                        </td>
+                        <td>
+                            <%= order.issue[i].cause %>
+                        </td>
+                        <td>
+                            <%= order.issue[i].correction %>
+                        </td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+    <% } %>
+
+    <!--LINE ITEMS BOX-->
+
+    <h2>Line Items</h2>
+    <% if(!order.status) { %>
+        <div ng-app="tax" ng-controller="taxController" class="container-body" id="orderTableSpace">
+            <table id="orderTable" class="cell-border compact display">
+
+                <!--LINE ITEMS TABLE HEADER-->
+
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Source/Notes</th>
+                    <th>Quantity</th>
+                    <th>Unit Cost</th>
+                    <th>Line Total</th>
+                    <th>Issue</th>
+                    <th>Assign Technician</th>
+                    <th>Del</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <!--LINE ITEMS TABLE BODY-->
+
+                <% var labor = 0 %>
+                <% var parts = 0 %>
+                <% var fees = 0 %>
+                <% for(var i = 0; i < order.service.length; i++) { %>
+                    <% if(order.service[i].category === 'Labor') { %>
+                        <% labor += Number.parseFloat(order.service[i].quantity * order.service[i].unitCost) %>
+                    <% } else if(order.service[i].category === 'Parts') { %>
+                        <% parts += Number.parseFloat(order.service[i].quantity * order.service[i].unitCost) %>
+                    <% } else { %>
+                        <% fees += Number.parseFloat(order.service[i].quantity * order.service[i].unitCost) %>
+                    <% } %>
+                    <tr class="editService">
+                        <td><%= i + 1 %></td>
+                        <td>
+                            <select class="editCategory" name="<%= order.service[i]._id %>">
+                                <% if (order.service[i].category == 'Labor') { %>
+                                    <option value="Labor" selected>Labor</option>
+                                    <option value="Parts">Parts</option>
+                                    <option value="Fees">Fees</option>
+                                <% } else if(order.service[i].category == 'Parts') { %>
+                                    <option value="Labor">Labor</option>
+                                    <option value="Parts" selected>Parts</option>
+                                    <option value="Fees">Fees</option>
+                                <% } else { %>
+                                    <option value="Labor">Labor</option>
+                                    <option value="Parts">Parts</option>
+                                    <option value="Fees" selected>Fees</option>
+                                <% } %>
+                            </select>
+                        </td>
+                        <td>
+                            <input class="editName" value="<%= order.service[i].name %>" type="text" style="width: 100%;
+                         box-sizing: border-box;
+                         -webkit-box-sizing:border-box;
+                         -moz-box-sizing: border-box;" name="<%= order.service[i]._id %>">
+                        </td>
+                        <td>
+                            <% if (order.service[i].source !== undefined) { %>
+                                <input class="editSource" value="<%= order.service[i].source %>" type="text" style="width: 100%;
+                         box-sizing: border-box;
+                         -webkit-box-sizing:border-box;
+                         -moz-box-sizing: border-box;" name="<%= order.service[i]._id %>">
+                            <% } else { %>
+                                <input class="editSource" value="" type="text" style="width: 100%;
+                         box-sizing: border-box;
+                         -webkit-box-sizing:border-box;
+                         -moz-box-sizing: border-box;" name="<%= order.service[i]._id %>">
+                            <% } %>
+                        </td>
+                        <td>
+                            <input id="editQuan<%= i %>" class="editQuan" value="<%= order.service[i].quantity %>"
+                                   type="number"
+                                   style="width: 100%;
+                         box-sizing: border-box;
+                         -webkit-box-sizing:border-box;
+                         -moz-box-sizing: border-box;" name="<%= order.service[i]._id %>" step="any" min="0">
+                        </td>
+                        <td>
+                            <input id="editCost<%= i %>" class="editCost" value="<%= order.service[i].unitCost %>"
+                                   type="number"
+                                   style="width: 100%;
+                         box-sizing: border-box;
+                         -webkit-box-sizing:border-box;
+                         -moz-box-sizing: border-box;" name="<%= order.service[i]._id %>" step="any" min="0">
+                        </td>
+                        <td id="subTotal<%= i %>">
+                            <%= Number.parseFloat(order.service[i].quantity * order.service[i].unitCost).toFixed(2) %>
+                        </td>
+                        <td>
+                            <select class="editIssueNum" name="<%= order.service[i]._id %>">
+                                <% for(var j = 0; j < order.issue.length; j++) { %>
+                                    <% if ((j + 1) == order.service[i].issueNumber) { %>
+                                        <option selected><%= j + 1 %></option>
+                                    <% } else { %>
+                                        <option><%= j + 1 %></option>
+                                    <% } %>
+                                <% } %>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="editTechnician" name="<%= order.service[i]._id %>">
+                                <option selected>None</option>
+                                <% for(var j = 0; j < technician.length; j++) { %>
+                                    <% if (technician[j].name == order.service[i].technician) { %>
+                                        <option selected><%= technician[j].name %></option>
+                                    <% } else { %>
+                                        <option><%= technician[j].name %></option>
+                                    <% } %>
+                                <% } %>
+                            </select>
+                        </td>
+                        <td>
+                            <button type="submit" class="button-normal red no-margin" id="<%= order.service[i]._id %>"
+                                    style="width: 70px" name="deleteService" tabindex="-1">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                <% } %>
+
+                <!--ADD LINE SERVICE-->
+
+                <tr ng-hide="addService" id="addService">
+                    <td><%= order.service.length + 1 %></td>
+                    <td>
+                        <select id="category">
+                            <option value="Labor" selected>Labor</option>
+                            <option value="Parts">Parts</option>
+                            <option value="Fees">Fees</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input list="jobList" id="jobInput" name="jobInput" style="width: 100%;
+                         box-sizing: border-box;
+                         -webkit-box-sizing:border-box;
+                         -moz-box-sizing: border-box;" class="addService"/>
+                        <datalist id="jobList">
+                            <% for(var i = 0; i < job.length; i++) { %>
+                                <option id="<%= job[i]._id %>" value="<%= job[i].name %>"><%= job[i].category %>
+                                    ,<%= job[i].unitCost %>
+                                </option>
+                            <% } %>
+                        </datalist>
+                    </td>
+                    <td>
+                        <input id="addSource" type="text" style="width: 100%;
+                         box-sizing: border-box;
+                         -webkit-box-sizing:border-box;
+                         -moz-box-sizing: border-box;" class="addService"/>
+                    </td>
+                    <td>
+                        <input id="addQuantity" type="number" value="0" step="1.00" min="0"
+                               style="width: 100%;
+                         box-sizing: border-box;
+                         -webkit-box-sizing:border-box;
+                         -moz-box-sizing: border-box;" class="addService"/>
+                    </td>
+                    <td>
+                        <input id="addUnitCost" type="number" style='width: 100%;
+                         box-sizing: border-box;
+                         -webkit-box-sizing:border-box;
+                         -moz-box-sizing: border-box;' value="0" step="1.00" min="0" class="addService"/>
+                    </td>
+                    <td id="subTotal">
+                    </td>
+                    <td>
+                        <select id="issueNumber">
+                            <% for(var i = 0; i < order.issue.length; i++) { %>
+                                <option><%= i + 1 %></option>
+                            <% } %>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="technicianInput">
+                            <option> None</option>
+                            <% for(var i = 0; i < technician.length; i++) { %>
+                                <option><%= technician[i].name %></option>
+                            <% } %>
+                        </select>
+                    </td>
+                    <!-- <td>
+                    <input list="technicianList" id="technicianInput" name="technicianInput" style="width: 100%;
+                         box-sizing: border-box;
+                         -webkit-box-sizing:border-box;
+                         -moz-box-sizing: border-box;" class="addService"/>
+                    <datalist id="technicianList">
+                        <% for(var i = 0; i < technician.length; i++) { %>
+                        <option id="<%= technician[i]._id %>" value="<%= technician[i].name %>">
+                        </option>
+                        <% } %>
+                    </datalist>
+                </td>  -->
+                    <td>
+                    </td>
+                </tr>
+                </tbody>
+                <!--TOTAL FOR LINE ITEMS-->
+
+                <!--<tfoot>-->
+                <tr>
+                    <!--<th id="test" colspan="5" style="text-align:left">Total:</th>
+                    <th id="totalVal"></th>-->
+                    <td colspan="6">
+                        <button ng-click="add()" style="width: 200px" class="button-normal no-border">SAVE AND ADD A NEW
+                            LINE
+                        </button>
+                    </td>
+                    <td colspan="2">Labor Subtotal:</td>
+                    <td colspan="1" id="laborSubtotal">
+                        <%= labor.toFixed(2) %>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <button ng-click="save()" style="width: 200px" class="button-normal no-border">SAVE</button>
+                    </td>
+                    <td colspan="2">Parts Subtotal:</td>
+                    <td colspan="1" id="partsSubtotal">
+                        <%= parts.toFixed(2) %>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6"></td>
+                    <td colspan="2">Fees Subtotal:</td>
+                    <td colspan="1" id="feesSubtotal">
+                        <%= fees.toFixed(2) %>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6"></td>
+                    <td colspan="1">Labor tax(%):</td>
+                    <td id="editLaborTax" colspan="1">
+                        <input ng-model="laborTax" type="number"
+                               style="width: 100%;
+                              box-sizing: border-box;
+                              -webkit-box-sizing:border-box;
+                              -moz-box-sizing: border-box;" step="0.01" min="0">
+                    </td>
+                    <td colspan="1" id="laborTax">{{laborTotal}}</td>
+                </tr>
+                <tr>
+                    <td colspan="6"></td>
+                    <td colspan="1">Parts tax(%):</td>
+                    <td id="editPartsTax" colspan="1">
+                        <input ng-model="partsTax" type="number"
+                               style="width: 100%;
+                              box-sizing: border-box;
+                              -webkit-box-sizing:border-box;
+                              -moz-box-sizing: border-box;" step="0.01" min="0">
+                    </td>
+                    <td colspan="1" id="partsTax">{{partsTotal}}</td>
+                </tr>
+                <tr>
+                    <td colspan="6"></td>
+                    <td colspan="2">Total:</td>
+                    <td colspan="1" id="total">{{total}}</td>
+                </tr>
+            </table>
+        </div>
+    <% } else { %>
+
+        <div class="container-body" id="orderTableSpace">
+            <table id="orderTable" class="cell-border compact display">
+
+                <!--LINE ITEMS TABLE HEADER-->
+
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Source/Notes</th>
+                    <th>Quantity</th>
+                    <th>Unit Cost</th>
+                    <th>Line Total</th>
+                    <th>Issue</th>
+                    <th>Del</th>
+                </tr>
+                </thead>
+
+
+                <!--LINE ITEMS TABLE BODY-->
+                <tbody>
+                <% var labor = 0 %>
+                <% var parts = 0 %>
+                <% var fees = 0 %>
+                <% for(var i = 0; i < order.service.length; i++) { %>
+                    <% if(order.service[i].category === 'Labor') { %>
+                        <% labor += Number.parseFloat(order.service[i].quantity * order.service[i].unitCost) %>
+                    <% } else if(order.service[i].category === 'Parts') { %>
+                        <% parts += Number.parseFloat(order.service[i].quantity * order.service[i].unitCost) %>
+                    <% } else { %>
+                        <% fees += Number.parseFloat(order.service[i].quantity * order.service[i].unitCost) %>
+                    <% } %>
+                <% } %>
+
+                <% var lTax = labor * order.laborTax / 100 %>
+                <% var pTax = parts * order.laborTax / 100 %>
+                <% var total = labor + parts + fees + lTax + pTax %>
+
+                <% for(var i = 0; i < order.service.length; i++) { %>
+                    <tr class="editService">
+                        <td><%= i + 1 %></td>
+                        <td>
+                            <%= order.service[i].category %>
+                        </td>
+                        <td>
+                            <%= order.service[i].name %>
+                        </td>
+                        <td>
+                            <% if (order.service[i].source !== undefined) { %>
+                                <%= order.service[i].source %>
+                            <% } else { %>
+                                N/A
+                            <% } %>
+                        </td>
+                        <td>
+                            <%= order.service[i].quantity %>
+                        </td>
+                        <td>
+                            <%= order.service[i].unitCost %>
+                        </td>
+                        <td id="subTotal<%= i %>">
+                            <%= Number.parseFloat(order.service[i].quantity * order.service[i].unitCost).toFixed(2) %>
+                        </td>
+                        <td>
+                            <%= order.service[i].issueNumber %>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                <% } %>
+                </tbody>
+
+
+                <tr>
+                    <!--<th id="test" colspan="5" style="text-align:left">Total:</th>
+                    <th id="totalVal"></th>-->
+                    <td colspan="5"></td>
+                    <td colspan="2">Labor Subtotal:</td>
+                    <td colspan="1" id="laborSubtotal">
+                        <%= labor.toFixed(2) %>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5"></td>
+                    <td colspan="2">Parts Subtotal:</td>
+                    <td colspan="1" id="partsSubtotal">
+                        <%= parts.toFixed(2) %>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5"></td>
+                    <td colspan="2">Fees Subtotal:</td>
+                    <td colspan="1" id="feesSubtotal">
+                        <%= fees.toFixed(2) %>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="5"></td>
+                    <td colspan="1">Labor tax(%): <%= order.laborTax %></td>
+                    <td id="editLaborTax" colspan="1">
+                    </td>
+                    <td colspan="1" id="laborTax"><%= lTax.toFixed(2) %></td>
+                </tr>
+                <tr>
+                    <td colspan="5"></td>
+                    <td colspan="1">Parts tax(%): <%= order.partsTax %></td>
+                    <td></td>
+                    <td colspan="1" id="partsTax"><%= pTax.toFixed(2) %></td>
+                </tr>
+                <tr>
+                    <td colspan="5"></td>
+                    <td colspan="2">Total:</td>
+                    <td colspan="1" id="total"><%= total.toFixed(2) %></td>
+                </tr>
+
+            </table>
+        </div>
+    <% } %>
+
+    <!--QUOTES HEADER-->
+
+    <h2>Quotes</h2>
+    <% if(!order.status) { %>
+        <div class="container-body">
+            <!--GENERATE QUOTE-->
+
+            <button id="generateQuote" class="button-normal" style="width: 200px">Generate New Quote</button>
+
+
+            <!--TABLE HEAD QUOTES-->
+            <table id="quoteTable" class="display">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>DATE TIME</th>
+                    <th>AMOUNT</th>
+                    <th>View</th>
+                    <th>Email</th>
+                    <th>Upload</th>
+                    <th>View Signed</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+
+                <!--TABLE BODY QUOTES-->
+
+                <tbody>
+                <% for (var i = 0; i < order.quote.length; i++) { %>
+                    <tr>
+                        <td><%= i + 1 %></td>
+                        <td><%= order.quote[i].dateCreated.toLocaleDateString('en-US') %></td>
+                        <td><%= order.quote[i].amount %></td>
+                        <td>
+                            <a href="/shop/<%= user._id %>/orders/<%= order._id %>/quote/<%= order.quote[i]._id %>"
+                               target="_blank">
+                                <button class="button-normal no-margin no-border" style="width: 80px;">VIEW</button>
+                            </a>
+                        </td>
+                        <td>
+                            <button class="emailQuote button-normal no-margin no-border" style="width: 80px;"
+                                    id="<%= order.quote[i]._id %>">EMAIL
+                            </button>
+                        </td>
+                        <form enctype="multipart/form-data" method="post"
+                              action="/shop/<%= user._id %>/orders/<%= order._id %>/quote/<%= order.quote[i]._id %>/upload">
+                            <td>
+                                <input id="fileupload" name="quote" type="file" required style="width: 110px;"/>
+                                <button type="submit" class="button-normal no-margin no-border" style="width: 120px;">
+                                    UPLOAD SIGNED
+                                </button>
+                            </td>
+                        </form>
+                        <% if (order.quote[i].hasUpload) { %>
+                            <td>
+                                <button id="viewSigned" class="button-normal no-margin no-border" style="width: 100px;">
+                                    VIEW SIGNED
+                                </button>
+                            </td>
+                        <% } else { %>
+                            <td>
+                                <button id="viewSigned" class="button-normal no-margin no-border" style="width: 100px;"
+                                        disabled>VIEW SIGNED
+                                </button>
+                            </td>
+                        <% } %>
+                        <td>
+                            <button id="deleteQuote<%= order.quote[i]._id %>" style="width: 100px;"
+                                    class="button-normal red no-margin">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <div class="container-body">
+
+
+            <!--TABLE HEAD QUOTES-->
+            <table id="quoteTable" class="display">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>DATE TIME</th>
+                    <th>AMOUNT</th>
+                </tr>
+                </thead>
+
+                <!--TABLE BODY QUOTES-->
+
+                <tbody>
+                <% for (var i = 0; i < order.quote.length; i++) { %>
+                    <tr>
+                        <td><%= i + 1 %></td>
+                        <td><%= order.quote[i].dateCreated.toLocaleDateString('en-US') %></td>
+                        <td><%= order.quote[i].amount %></td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+    <% } %>
+
+    <!--BILLING HEADER-->
+
+    <h2>Billing</h2>
+    <div class="container-body" style="margin-bottom: 0">
+
+        <!--GENERATE NEW INVOICE-->
+
+
+        <!--BILLING BOX-->
+
+        <% if (order.invoice == undefined && !order.status) { %>
+            <button id="generateInvoice" class="button-normal" style="width: 200px">
+                Generate Invoice
+            </button>
+        <% } %>
+
+        <% if (order.invoice !== undefined && !order.status) { %>
+
+            <button id="updateInvoice" class="button-normal" style="width: 200px">
+                Update Invoice
+            </button>
+        <% } %>
+
+        <% if (order.invoice !== undefined) { %>
+            <% if (order.invoice.lastUpdated !== undefined) { %>
+                <h2>Last updated: <%= order.invoice.lastUpdated.toLocaleDateString('en-US') %>
+                    , <%= order.invoice.lastUpdated.toLocaleTimeString() %></h2><br>
+            <% }else{ %>
+                <h2>Last updated: </h2><br>
+            <% } %>
+            <h2>Invoice Total: <%= order.invoice.amount %></h2>
+            <a href="/shop/<%= user._id %>/orders/<%= order._id %>/invoice/<%= order.invoice._id %>"
+               target="_blank">
+                <button>VIEW</button>
+            </a>
+            <button class="emailInvoice" id="<%= order.invoice._id %>">EMAIL</button>
+            <% if (!order.status) { %>
+            <button class="deleteInvoice button-normal red no-margin" id="<%= order.invoice._id %>">Delete
+                <% } %>
+            </button>
+
+            <% if (order.invoice.payment != undefined) { %>
+
+                <h2>Payment History</h2>
+
+                <hr>
+                <!--Fill history of respective amounts-->
+                <% for (var i = 0; i < order.invoice.payment.length; i++) { %>
+
+                    <p><b>Customer Payment:</b> <%= order.invoice.payment[i].amount %>
+                        <b>Method:</b> <%= order.invoice.payment[i].method %></p>
+
+                    <% if (!order.status) { %>
+                        <button id="deletePayment<%= order.invoice.payment[i]._id %>">Delete</button>
+                    <% } %>
+
+                <% } %>
+
+                <hr>
+
+            <% } %>
+
+            <% if (!order.status) { %>
+                <button class="markPaid" id="<%= order.invoice._id %>">Record New Payment</button>
+            <% } %>
+
+            <div id="paymentBox" style="display:none">
+                <form action="<%= order._id %>/invoice/<%= order.invoice._id %>/payment" method="post">
+                    Enter Amount:
+                    <input name="amount" id="amount" required><br>
+                    Select Payment Method:<br>
+                    <input type="radio" name="method" value="Cash" checked> Cash<br>
+                    <input type="radio" name="method" value="Cheque"> Cheque<br>
+                    <input type="radio" name="method" value="Card"> Card<br><br>
+
+                    <input type="submit">
+
+                </form>
+            </div>
+            <hr>
+            <b>Balance:</b>
+            <h2 id="remainingBalance"> <%= order.invoice.remaining %></h2>
+            <hr>
+        <% } %>
+    </div>
+
+    <!--ORDER STATUS BOX - 2-->
+
+    <% if (order.status) { %>
+        <h4>Order Status: Closed</h4>
+        <button class="editStatus" value="Closed">Open Order</button>
+    <% } else { %>
+        <h4>Order Status: Open</h4>
+        <button class="editStatus" value="In progress">Close Order</button>
+    <% } %>
+</div>
+</body>
+</html>

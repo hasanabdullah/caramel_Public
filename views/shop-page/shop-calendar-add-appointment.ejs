@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Appointment - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+    <script type="text/javascript" src="/public/javascripts/shop/appointment-add.js"></script>
+</head>
+
+<body>
+
+<div class="top-header">
+    <div class="header-logo">
+        <p>caramel</p>
+    </div>
+    <div class="header-navigation">
+        <p><a href="/shop/<%= user._id %>/profile">DASHBOARD</a></p>
+        <p><a href="/shop/<%= user._id %>/orders">REPAIR ORDERS</a></p>
+        <p><a href="/shop/<%= user._id %>/home" id="active">CALENDAR</a></p>
+        <p><a href="/shop/<%= user._id %>/invoice">INVOICES</a></p>
+        <p><a href="/shop/<%= user._id %>/customer">CUSTOMERS</a></p>
+        <p><a href="/shop/<%= user._id %>/technician">TECHNICIANS</a></p>
+        <p><a href="/shop/<%= user._id %>/jobs">CANNED JOBS</a></p>
+        <p><a href="/shop/<%= user._id %>/quote"></a>QUOTES</p>
+    </div>
+    <div class="header-right">
+        <p><a class="red-link" href="/logout">LOG OUT</a></p>
+    </div>
+</div>
+
+<% include partials/search-bar.ejs %>
+
+<div class="container-main">
+    <h2>Enter Appointment Details</h2>
+
+    <div class="container-body">
+        <h5>Appointment Description</h5>
+        <!--<label for="desc">Add Descrition: </label><br>-->
+        <input id="desc" class="form-control" type="text" name="desc" placeholder="Enter Text">
+
+        <div class="white-space"></div>
+        <div class="line"></div>
+        <h5>Date and Time</h5>
+
+        <form id="apptForm">
+            <div id="datetimePicker">
+                <input style="width: 200px" type="text" name="startTime" id="startTime"/><h4>Start Time</h4>
+                <input style="width: 200px" type="text" name="endTime" id="endTime" style="display: none"/><h4>End
+                    Time</h4>
+
+                <div class="white-space"></div>
+                <div class="line"></div>
+
+                <h5>Recipient/Technician Info</h5>
+
+                <select id="techList" class="custom-select" style="height:35px;padding:5px;width: 200px">
+                    <option selected="true" disabled="true"></option>
+                    <% for(var i = 0; i < user.technician.length; i++) { %>
+                        <option id="<%= user.technician[i]._id %>"><%= user.technician[i].name %></option>
+                    <% } %>
+                </select>
+                <h4 for="techList">Assign Technician</h4>
+
+
+                <input list="nameList" id="nameInput"/>
+                <datalist id="nameList">
+                    <% for(var i = 0; i < user.customer.length; i++) { %>
+                    <% if (user.customer[i].accountType === 'personal') { %>
+                        <option id="<%= user.customer[i]._id %>"><%= user.customer[i].firstName %> <%= user.customer[i].lastName %></option>
+                    <% } else { %>
+                        <option id="<%= user.customer[i]._id %>"><%= user.customer[i].companyName %></option>
+                    <% } %>
+                    <% } %>
+                </datalist>
+                <h4 for="nameList">Customer</h4>
+
+
+                <input list="vehicleList" id="vehicleInput" disabled/>
+                <datalist id="vehicleList">
+                </datalist>
+                <h4 for="vehicleList">Vehicle</h4>
+
+                <div class="white-space"></div>
+                <div class="line"></div>
+
+                <h5>Services</h5>
+                <% for(var i = 0; i < user.job.length; i++) { %>
+                    <label class="checkbox-clean"
+                           style="font-size: 16px; font-family: inherit; font-weight: 400;padding: 3px 0 3px 45px"><%= user.job[i].name %>
+                        <input type="checkbox" name="jobs" value="<%= user.job[i]._id %>">
+                        <span class="checkmark-clean"></span>
+                    </label>
+                <% } %>
+
+                <div class="white-space"></div>
+                <input type="submit" value="Create Appointment" class="button-normal"
+                       style="margin: 0 auto; text-align: center; width:200px">
+            </div>
+        </form>
+
+    </div>
+</div>
+
+</body>
+
+</html>

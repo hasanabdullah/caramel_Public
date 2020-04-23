@@ -1,0 +1,231 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Invoice</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/invoice-printable-style.css">
+    <style type="text/css" media="print">
+        @page {
+            size: auto;   /* auto is the initial value */
+            margin: 0mm;  /* this affects the margin in the printer settings */
+        }
+    </style>
+</head>
+<%
+function getFormattedPhone(phone) {
+    phone = phone.toString();
+    phone = phone.replace(/-/g, '');
+    phone = phone.replace(/\)/g, '');
+    phone = phone.replace(/\(/g, '');
+    return "(" + phone.substring(0, 3) + ") " + phone.substring(3, 6) + "-" + phone.substring(6, 10);
+}
+%>
+<%
+function getLaborTotal() {
+    var laborTotal = 0;
+    for (var i = 0; i < invoice.service.length; i++) {
+        if (invoice.service[i].category === "Labor") {
+            laborTotal += invoice.service[i].quantity * invoice.service[i].unitCost;
+        }
+    }
+    return laborTotal;
+}
+%>
+
+<%
+function getPartsTotal() {
+    var partsTotal = 0;
+    for (var i = 0; i < invoice.service.length; i++) {
+        if (invoice.service[i].category === "Parts") {
+            partsTotal += invoice.service[i].quantity * invoice.service[i].unitCost;
+        }
+    }
+    return partsTotal;
+}
+%>
+
+<%
+function getFeesTotal() {
+    var feesTotal = 0;
+    for (var i = 0; i < invoice.service.length; i++) {
+        if (invoice.service[i].category === "Fees") {
+            feesTotal += invoice.service[i].quantity * invoice.service[i].unitCost;
+        }
+    }
+    return feesTotal;
+}
+%>
+<body>
+
+<table style="width: 100%; table-layout: fixed">
+    <tr>
+        <td>
+            <!-- shop logo-->
+        </td>
+        <td style="text-align: center">
+            <p>Service Invoice<br><%= invoice.lastUpdated.toLocaleDateString('en-US') %></p>
+        </td>
+        <td style="text-align: right">
+            <p style="margin: 0;padding: 0;font-size: 14px"><b><%= invoice.shop.name %></b></p>
+            <p style="font-size: 12px"><%= invoice.shop.address %><br><%= invoice.shop.city %>
+                , <%= invoice.shop.state %>, <%= invoice.shop.zip %>
+                <br>
+                <% if (invoice.shop.phone === undefined) { %>
+                    N/A
+                <% } else { %>
+                    <%= getFormattedPhone(invoice.shop.phone) %>
+                <% } %>
+            </p>
+        </td>
+    </tr>
+</table>
+
+
+<div class="lower-block">
+    <table style="width: 100%; table-layout: fixed;font-size: 12px">
+        <tr>
+            <td>
+                <p>
+                    <b>Billing To</b>
+                </p>
+                <p>
+                    <% if (invoice.customer.accountType === 'personal') { %>
+                        <%= invoice.customer.firstName %> <%= invoice.customer.lastName %><br>
+                    <% } else { %>
+                        <%= invoice.customer.companyName %><br>
+                    <% } %>
+                    <%= invoice.customer.address %> <%= invoice.customer.city %> <%= invoice.customer.state %> <%= invoice.customer.zip %>
+                    <br>
+                    <% if (invoice.customer.phone === undefined) { %>
+                        N/A
+                    <% } else { %>
+                        <%= getFormattedPhone(invoice.customer.phone) %>
+                    <% } %>
+                    <br> <%= invoice.customer.email %>
+                </p>
+            </td>
+            <td>
+            </td>
+            <td style="padding-top: 0;margin-top: 0; vertical-align: top">
+                <table style="width: 100%; table-layout: fixed; font-size: 12px;margin-top: 0">
+                    <tr>
+                        <td>Vehicle Details</td>
+                        <td><%= invoice.vehicle.year %> <%= invoice.vehicle.make %> <%= invoice.vehicle.model %></td>
+                    </tr>
+                    <tr>
+                        <td>Date of Arrival:</td>
+                        <td><%= order.dateCreated.toLocaleDateString('en-US') %></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <div class="billing-address">
+
+    </div>
+
+
+</div>
+
+<div class="items">
+    <div class="items-header">
+        <table>
+            <tr>
+                <td>Type</td>
+                <td>Item</td>
+                <td>Quantity</td>
+                <td>Rate</td>
+                <td>Amount</td>
+            </tr>
+        </table>
+    </div>
+    <div class="items-list">
+        <table id="invoice">
+            <% var fee = 0 %>
+            <% for(var i = 0; i < invoice.service.length; i++) { %>
+                <% fee += invoice.service[i].quantity * invoice.service[i].unitCost %>
+                <tr>
+                    <td><%= invoice.service[i].category %></td>
+                    <td><%= invoice.service[i].name %></td>
+                    <% if (invoice.service[i].category === 'Labor') { %>
+                        <td><%= invoice.service[i].quantity %> hrs</td>
+                        <td>$<%= invoice.service[i].unitCost %> /hr</td>
+                    <% } else { %>
+                        <td><%= invoice.service[i].quantity %></td>
+                        <td>$<%= invoice.service[i].unitCost %></td>
+                    <% } %>
+                    <td>$<%= (invoice.service[i].quantity * invoice.service[i].unitCost).toFixed(2) %></td>
+                </tr>
+            <% } %>
+        </table>
+    </div>
+
+    <div class="billing-details">
+        <table>
+            <tr>
+                <td style="width: 4.5in"></td>
+                <td></td>
+                <td>Labor Subtotal</td>
+                <td>$<%= getLaborTotal().toFixed(2) %></td>
+            </tr>
+            <tr>
+                <td style="width: 4.5in"></td>
+                <td></td>
+                <td>Parts Subtotal</td>
+                <td>$<%= getPartsTotal().toFixed(2) %></td>
+            </tr>
+            <tr>
+                <td style="width: 4.5in"></td>
+                <td></td>
+                <td>Labor Taxes</td>
+                <td>$<%= (getLaborTotal() * order.laborTax / 100).toFixed(2) %></td>
+            </tr>
+            <tr>
+                <td style="width: 4.5in"></td>
+                <td></td>
+                <td>Parts Taxes</td>
+                <td>$<%= (getPartsTotal() * order.partsTax / 100).toFixed(2) %></td>
+            </tr>
+            <tr>
+                <td style="width: 4.5in"></td>
+                <td></td>
+                <td>Fees</td>
+                <td>$<%= getFeesTotal().toFixed(2) %></td>
+            </tr>
+            <tr>
+                <td style="width: 4.5in"></td>
+                <td></td>
+                <td>Total</td>
+                <td>$<%= invoice.amount %></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="notes">
+        <p style="font-size: 12px">I have authorized <b><%= invoice.shop.name %></b> to perform any diagnosis, testing,
+            and disassembly of the vehicle
+            or
+            subsystem(s) to identify, assess and estimate repair costs, and/or perform the necessary repair work
+            herein set forth along with the necessary material(s) outlined before me by <b><%= invoice.shop.name %></b>.
+            I am
+            the
+            person, or agent acting on behalf of the person, who is obligated to pay for the repair of the motor
+            vehicle mentioned and granted approval to proceed. I understand that <b><%= invoice.shop.name %></b> is not
+            responsible
+            for lost or damaged property while the vehicle was in/at the facility for service work.</p>
+        <br>
+        <table>
+            <tr style="font-size:12px">
+                <td><b>Signature</b>_______________________________________________________</td>
+                <td style="text-align: right">
+                    <b>Date</b>____________________
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+
+</html>

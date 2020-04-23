@@ -1,0 +1,335 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Shop - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/responsive-table-styles.css">
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script src="/public/javascripts/shop/profile.js"></script>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Style all input fields */
+        input {
+            width: 100%;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            margin-bottom: 5px;
+        }
+
+        /* Style the submit button */
+        input[type=submit] {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Style the container for inputs */
+        .container {
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+
+        /* The message box is shown when the user clicks on the password field */
+        #message {
+            display: none;
+            background: #f1f1f1;
+            color: #000;
+            position: relative;
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        #message p {
+            padding: 10px 35px;
+            font-size: 18px;
+        }
+
+        /* Add a green text color and a checkmark when the requirements are right */
+        .valid {
+            color: green;
+        }
+
+        .valid:before {
+            position: relative;
+            left: -35px;
+            content: "✔";
+        }
+
+        /* Add a red text color and an "x" when the requirements are wrong */
+        .invalid {
+            color: red;
+        }
+
+        .invalid:before {
+            position: relative;
+            left: -35px;
+            content: "✖";
+        }
+    </style>
+
+
+</head>
+<body>
+<%
+function getFormattedPhone(phone) {
+    phone = phone.toString();
+    return "(" + phone.substring(0, 3) + ") " + phone.substring(3, 6) + "-" + phone.substring(6, 10);
+}
+%>
+
+<% include partials/headers/dash.ejs %>
+
+<div class="container-main">
+    <% include partials/search-bar.ejs %>
+    <h2>Dashboard</h2>
+    <div class="container-body">
+
+        <div id="profile-info" style="display: block">
+            <h1 id="name" onclick="this.contentEditable=true;" onblur="this.contentEditable=false;"
+                title="Double click to edit name"><%= user.name %></h1>
+            <div class="line"></div>
+            <h5>Shop Info</h5>
+
+            <table style="margin-top:20px" class="table-spacing">
+                <tr>
+                    <td style="padding-bottom: 40px">
+                        <img src="../../../logos/<%= user._id %>.jpg" width="140px">
+                    </td>
+                    <td>
+                        <form enctype="multipart/form-data" method="post"
+                              action="/shop/<%= user._id %>/profile/upload">
+                            <input id="fileupload" name="photo" type="file" required style="width: 300px"/><br>
+                            <button class="button-normal no-margin" style="margin-right: 10px;float: left;"
+                                    type="submit">UPLOAD SHOP LOGO
+                            </button>
+                        </form>
+                        <form method="post"
+                              action="/shop/<%= user._id %>/profile/delete">
+                            <button class="button-normal red no-margin" style="display: inline-block;" type="submit">
+                                remove photo
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h3><%= user.email %> </h3>
+                        <h4>Email</h4>
+                    </td>
+                    <td>
+                        <h3 id="address" onclick="this.contentEditable=true;" onblur="this.contentEditable=false;"
+                            title="Double click to edit address">
+                            <% if (user.address !== undefined && user.address !== '') { %>
+                                <%= user.address %>
+                            <% } else { %>
+                                Click to Enter Address
+                            <% } %>
+                        </h3>
+                        <h4>Address</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h3 id="city" onclick="this.contentEditable=true;" onblur="this.contentEditable=false;"
+                            title="Double click to edit city">
+                            <% if (user.city !== undefined && user.city !== '') { %>
+                                <%= user.city %>
+                            <% } else { %>
+                                Click to Enter City
+                            <% } %>
+                        </h3>
+                        <h4>City</h4>
+                    </td>
+                    <td>
+                        <h3 id="state" onclick="this.contentEditable=true;" onblur="this.contentEditable=false;"
+                            title="Double click to edit state">
+                            <% if (user.state !== undefined && user.state !== '') { %>
+                                <%= user.state %>
+                            <% } else { %>
+                                Click to Enter State
+                            <% } %>
+                        </h3>
+                        <h4>State</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h3 id="zip" onclick="this.contentEditable=true;" onblur="this.contentEditable=false;"
+                            title="Double click to edit zip">
+                            <% if (user.zip !== undefined && user.zip !== '') { %>
+                                <%= user.zip %>
+                            <% } else { %>
+                                Click to Enter ZIP
+                            <% } %>
+                        </h3>
+                        <h4>Zip</h4>
+                    </td>
+                    <td>
+                        <h3 id="phone" onclick="this.contentEditable=true; javascript:$(this).text('')"
+                            onblur="this.contentEditable=false;"
+                            title="Double click to edit phone number">
+                            <% if (user.phone !== undefined && user.phone !== '') { %>
+                                <%= getFormattedPhone(user.phone) %>
+                            <% } else { %>
+                                Click to Enter Phone
+                            <% } %>
+                        </h3>
+                        <h4>Phone</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h3 id="bay" onclick="this.contentEditable=true;" onblur="this.contentEditable=false;"
+                            title="Double click to edit amount of bays">
+                            <% if (user.bayNumber !== undefined && user.bayNumber !== '') { %>
+                                <%= user.bayNumber %>
+                            <% } else { %>
+                                Click to Enter # of Bays
+                            <% } %>
+                        </h3>
+                        <h4>Number of bays</h4>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="white-space"></div>
+        <h5>Customers and Technicians</h5>
+        <a href="/shop/<%= user._id %>/customer/add">
+            <button class="button-normal no-margin" style="margin-right: 10px">Add Customer</button>
+        </a>
+        <a href="/shop/<%= user._id %>/technician">
+            <button class="button-normal no-margin">Add Technician</button>
+        </a>
+
+        <div class="white-space"></div>
+
+        <h5>Password</h5>
+        <button class="button-normal no-margin no-border" id="showChangePWD">Change Password</button>
+
+        <div id="changePWD" style="display: none">
+
+            <div id="edit-info" style="display: block">
+                <input id="password" style="margin-bottom: 10px" class="form-control" type="password" name="password"
+                       placeholder="Enter New Password"
+                       required>
+                <br>
+                <input id="retype" class="form-control" type="password" name="retype" placeholder="Retype New Password"
+                       required>
+                <br>
+                <input class="button-normal" type="submit" id="changePassword" value="Change">
+
+            </div>
+
+            <div id="message">
+                <h3>Password must contain the following:</h3>
+                <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                <p id="number" class="invalid">A <b>number</b></p>
+                <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+            </div>
+
+        </div>
+    </div>
+
+    <h2> Active Repair Orders</h2>
+    <div class="container-body">
+        <table id="repairsTable" class="cell-border compact stripe">
+            <thead>
+            <tr style="margin: 10px 0">
+                <td>Repair ID</td>
+                <td>Name</td>
+                <td>Vehicle</td>
+                <td>Date Created</td>
+                <td>Date Modified</td>
+                <td>Progress</td>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- table body -->
+            <% for(var i = 0; i < order.length; i++) { %>
+                <% if (!order[i].status) { %>
+                <tr onclick="window.location='/shop/<%= user._id %>/orders/<%= order[i]._id %>'">
+                    <% if (order[i].uniqueId !== undefined) { %>
+                        <td><%= order[i].uniqueId %></td>
+                    <% } else { %>
+                        <td>N/A</td>
+                    <% } %>
+                    <td><%= order[i].customer.firstName %> <%= order[i].customer.lastName %></td>
+                    <td><%= order[i].vehicle.year %> <%= order[i].vehicle.make %> <%= order[i].vehicle.model %></td>
+                    <td data-sort="<%= order[i].dateCreated.getTime() %>"><%= order[i].dateCreated.toLocaleDateString('en-US') %></td>
+                    <% if (new Date().toLocaleDateString() === order[i].lastModified.toLocaleDateString()) { %>
+                        <td data-sort="<%= order[i].lastModified.getTime() %>"><%= order[i].lastModified.toLocaleTimeString('en-US', {
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            }) %></td>
+                    <% } else { %>
+                        <td data-sort="<%= order[i].lastModified.getTime() %>"><%= order[i].lastModified.toLocaleDateString('en-US') %></td>
+                    <% } %>
+                    <td>In Progress</td>
+                    <% } %>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Unpaid Invoices</h2>
+    <div class="container-body">
+        <table class="table-clean" style="margin-bottom: 10px">
+            <tr>
+                <th>Customer</th>
+                <th>Vehicle</th>
+                <th>Date Created</th>
+                <th>Invoice Total</th>
+                <th>Remaining Balance</th>
+            </tr>
+        </table>
+        <% for(var i = 0; i < invoices.length; i++) { %>
+            <table class="table-clean" style="margin-bottom: 0">
+                <tr onclick="showEdit<%= i %>()">
+                    <td><%= invoices[i].customer.firstName %> <%= invoices[i].customer.lastName %> </td>
+                    <td><%= invoices[i].vehicle.year %> <%= invoices[i].vehicle.make %> <%= invoices[i].vehicle.model %></td>
+                    <td><%= invoices[i].dateCreated.toLocaleDateString('en-US') %></td>
+                    <td><%= invoices[i].amount %></td>
+                    <td><%= invoices[i].remaining %></td>
+                </tr>
+            </table>
+
+            <div id="edit<%= i %>" style="display: none;height: 60px;margin-bottom: 40px;margin-top:0">
+                <button class="button-normal" style="margin-right: 10px; float:left;"
+                        onclick="window.open('/shop/<%= user._id %>/orders/<%= invoices[i].order %>/invoice/<%= invoices[i]._id %>')">
+                    View Invoice Details
+                </button>
+                <button class="button-normal" style="margin-right: 10px; float:left;"
+                        onclick="location.href='/shop/<%= user._id %>/orders/<%= invoices[i].order %>'">
+                    Check Repair Order
+                </button>
+            </div>
+
+            <script>
+                function showEdit<%= i %>() {
+                    var editButtons = document.getElementById("edit<%= i %>");
+                    if (editButtons.style.display == "none") {
+                        editButtons.style.display = "block";
+                    } else {
+                        editButtons.style.display = "none";
+                    }
+                }
+            </script>
+        <% } %>
+    </div>
+</div>
+
+
+</div>
+
+</body>
+</html>

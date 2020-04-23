@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<p>Search Result</p>
+<div>
+    <div style="<%= display[0] %>">
+        <p>Customer details</p>
+        <% for (var i = 0; i < customer.length; i++) { %>
+            <p><%= customer[i] %></p>
+        <% } %>
+    </div>
+    <div style="<%= display[1] %>">
+        <p>Vehicle details</p>
+        <% for (var i = 0; i < vehicle.length; i++) { %>
+            <p><%= vehicle[i] %></p>
+        <% } %>
+    </div>
+    <div style="<%= display[2] %>">
+        <p>Repair Order details</p>
+        <% for (var i = 0; i < order.length; i++) { %>
+            <p><%= order[i] %></p>
+        <% } %>
+    </div>
+    <div style="<%= display[3] %>">
+        <p>Invoice details</p>
+        <% for (var i = 0; i < invoice.length; i++) { %>
+            <p><%= invoice[i] %></p>
+        <% } %>
+    </div>
+    <div style="<%= display[4] %>">
+        <p>Quote details</p>
+        <% for (var i = 0; i < quote.length; i++) { %>
+            <p><%= quote[i] %></p>
+        <% } %>
+    </div>
+</div>
+</body>
+</html>

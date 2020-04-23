@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <title>Week Calendar - Caramel</title>
+    <!--<meta charset="UTF-8">
+    <meta name="description" content="AngularJS Responsive Calendar Demo">-->
+    <link rel="stylesheet" type="text/css" href="/css/shop-profile-styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.2.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.3/css/bootstrap.min.css"/>
+
+    <!--our own files-->
+    <link href="/popup.css" rel="stylesheet">
+    <link rel="stylesheet" href="/calendar.min.css"/>
+    <script src="/calendarDemoCtrl.js"></script>
+    <script src="/calendar-tpls.js"></script>
+</head>
+
+<body>
+<% include partials/shop-header.ejs %>
+
+<div class="top-label">
+    <h1>Weekly Calendar</h1>
+</div>
+
+<% include partials/search-bar.ejs %>
+
+<div class="container">
+    <div class="links">
+        <a href="/shop/<%= user._id %>/profile">
+            <div class="link-head"><p>Dashboard</p></div>
+        </a>
+        <a href="/shop/<%= user._id %>/orders">
+            <div class="link-head"><p>Repair Orders</p></div>
+        </a>
+        <div class="link-head" id="active"><p>Calendar</p></div>
+        <a href="/shop/<%= user._id %>/invoice">
+            <div class="link-head"><p>Invoices</p></div>
+        </a>
+        <a href="/shop/<%= user._id %>/customer">
+            <div class="link-head"><p>Customers</p></div>
+        </a>
+        <a href="/shop/<%= user._id %>/technician">
+            <div class="link-head"><p>Technicians</p></div>
+        </a>
+        <a href="/shop/<%= user._id %>/jobs">
+            <div class="link-head"><p>Canned Jobs</p></div>
+        </a>
+        <a href="/shop/<%= user._id %>/quote">
+            <div class="link-head"><p>Quotes</p></div>
+        </a>
+    </div>
+    <div class="right-container" style="width: 900px">
+
+        <div class="right-head">
+            <p>Schedule</p>
+        </div>
+        <!--<a href="/shop/<%= user._id %>/calendar" style="text-decoration: none; color: white"><button id="button-normal">View Schedule</button></a>-->
+        <a href="/shop/<%= user._id %>/calendar/shop-calendar-add-appointment"
+           style="text-decoration: none; color: white">
+            <button id="button-normal">Add Appointment</button>
+        </a>
+        <section ng-app="calendarDemoApp" style="margin-top: 70px;">
+            <section ng-controller="CalendarDemoCtrl" ng-init="loadEvents()">
+                <div class="well well-sm">
+                    <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
+                              range-changed="reloadSource(startTime, endTime)"
+                              event-selected="onEventSelected(event)"
+                              time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
+                </div>
+            </section>
+        </section>
+    </div>
+
+</div>
+
+</body>
+</html>

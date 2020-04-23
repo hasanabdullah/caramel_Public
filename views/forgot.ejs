@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Page - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/shop-profile-styles.css">
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="header-top">
+    <!-- <a href="#default" class="logo"><img src="https://i.imgur.com/JP98HE9.png" height="75px"></a> -->
+    <a href="/" class="carma">car</a>
+    <a href="/" class="guys">amel</a>
+    <div class="header-right">
+        <a href="#about">About</a>
+        <a href="/logout">Log Out</a>
+    </div>
+</div>
+
+
+<div class="container" style="margin: 0px auto;">
+    <div class="right-container">
+        <div class="right-head" style="margin-bottom:0"><p>Reset Password</p></div>
+        <div class="right-body">
+            <form action="/reset/<%= type %>/<%= token %>" method="post">
+                <label>New Password</label><br>
+                <input class="form-control" type="password" name="newpassword" placeholder='New password'/><br>
+                <label>Confirm Password</label><br>
+                <input class="form-control" type="password" name="password" placeholder='Confirm password'/>
+                <input id="button-white" type="submit" value="Submit"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

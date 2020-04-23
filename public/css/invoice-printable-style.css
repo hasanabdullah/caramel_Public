@@ -1,0 +1,107 @@
+html {
+    padding: .5in;
+    overflow: auto;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    box-sizing: border-box;
+    height: 11.69in;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 0.5in;
+    width: 8.27in;
+}
+
+.header-logo {
+    text-align: left;
+    float: left;
+}
+
+.header {
+    text-align: right;
+    font-size: 40px;
+    font-weight: 300;
+}
+
+.header p {
+    padding: 0;
+    margin: 0;
+}
+
+.company-address p {
+    padding: 0;
+    margin: 20px 0 0 0;
+    font-size: 14px;
+}
+
+.lower-block {
+    margin: 40px 0 0 0;
+    background-color: rgb(240, 240, 240);
+    height: 1.2in;
+}
+
+.billing-address {
+    margin-left: .1in;
+    float: left;
+}
+
+.billing-address p {
+    font-size: 14px;
+}
+
+.billing-info {
+    margin-top: .05in;
+    font-size: 12px;
+    float: right;
+    display: inline-block;
+}
+
+.billing-info table {
+    width: 2in;
+
+}
+
+.billing-info tr {
+    height: .24in;
+}
+
+.items {
+    margin-top: .5in;
+    font-size: 12px;
+}
+
+.items table {
+    table-layout: fixed;
+    width: 100%;
+    text-align: left;
+}
+
+.items td {
+    width: 1.1in;
+}
+
+.items-list {
+    background-color: rgb(240, 240, 240);
+    margin-top: .3in;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.items-list tr {
+    height: .4in;
+}
+
+.billing-details {
+    margin-top: .2in;
+    background-color: rgb(240, 240, 240);
+}
+
+.billing-details tr {
+    height: .3in;
+}
+
+.notes {
+    margin-top: .2in;
+    font-size: 14px;
+}

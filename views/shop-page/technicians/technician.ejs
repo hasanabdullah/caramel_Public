@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+    <title>Technicians - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/public/javascripts/shop/tech.js"></script>
+</head>
+<body>
+<%
+function getFormattedPhone(phone) {
+    phone = phone.toString();
+    return "(" + phone.substring(0, 3) + ") " + phone.substring(3, 6) + "-" + phone.substring(6, 10);
+}
+%>
+<% include partials/headers/techs.ejs %>
+
+<div class="container-main">
+    <% include partials/search-bar.ejs %>
+    <h2>TECHNICIANS</h2>
+
+    <div class="container-body">
+        <h4>Technician List</h4>
+        <table class="table-clean">
+            <% for(var i = 0; i < user.technician.length; i++) { %>
+                <tr onclick="showHideTech<%= i %>()" style="cursor: pointer;">
+                    <td id="techName<%= user.technician[i]._id %>"
+                        onclick="this.contentEditable=true;" onblur="this.contentEditable=false;"
+                        title="Double click to edit you technician's name"><%= user.technician[i].name %></td>
+                    <td></td>
+                    <td>
+                        <form style="display: none;width: 100%; height:100%" id="tech<%= i %>">
+                            <button type="submit" class="button-normal red no-margin"
+                                    id="deleteTech<%= user.technician[i]._id %>">Delete
+                            </button>
+                        </form>
+                    </td>
+    </div>
+    <script>
+        function showHideTech<%= i %>() {
+            var show = document.getElementById("tech<%= i %>")
+            if (show.style.display == "none") {
+                show.style.display = "block";
+            } else {
+                show.style.display = "none"
+            }
+        }
+    </script>
+    <% } %>
+    </table>
+
+    <div class="line"></div>
+    <form action="/shop/<%= user._id %>/technician/tech" method="post">
+        <h4>Add Technician</h4>
+        <input id="techniName" style="width:200px" class="form-control" type="text" name="name"
+               placeholder="New Tech Name" required>
+        <br>
+        <input type="submit" class="button-normal" value="Add">
+    </form>
+</div>
+</div>
+</div>
+</body>
+</html>

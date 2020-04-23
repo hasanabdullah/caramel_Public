@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+    <title>Your Profile - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/customer-profile-styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="profile/profile.js"></script>
+    <script src="/fb-login.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="header-top">
+    <!-- <a href="#default" class="logo"><img src="https://i.imgur.com/JP98HE9.png" height="75px"></a> -->
+    <a href="/" class="carma" style="line-height: 60px;">car</a><a href="/" class="guys"
+                                                                   style="line-height: 60px;">amel</a>
+    <div class="header-right">
+        <a href="#about">About</a>
+        <a onClick=fbLogout()>Log Out</a>
+    </div>
+</div>
+
+<% include partials/headers/customer-profile.ejs %>
+
+<div class="top-label">
+    <h1>My Profile</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6" id="edit-box">
+            <div class="well" id="info-box">
+                <div class="card-header"><h3>My Info</h3></div>
+                <div class="card-body">
+                    <div ng-app="profile" ng-controller="profileController" id="display-info" style="display: block;">
+                        <p>Email: {{customer.email}}</p>
+                        <fieldset ng-disabled="canEdit">
+                            <p>Name: <input ng-model="customer.name"></p>
+                            <p>Phone: <input ng-model="customer.phone"></p>
+                            <p>Address: <input ng-model="customer.address"></p>
+                            <p>zip: <input ng-model="customer.zip"></p>
+                            <p>city: <input ng-model="customer.city"></p>
+                            <p>state: <input ng-model="customer.state"></p>
+                        </fieldset>
+                        <button id="button-normal" ng-show="edit" ng-click="Edit()">Edit</button>
+                        <button id="button-normal" ng-show="save" ng-click="Save()">Save</button>
+                        <button id="button-normal" ng-show="cancel" ng-click="Cancel()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- VEHICLE INFORMATION -->
+        <div class="col-sm-6" id="vehicle-box">
+            <div class="well">
+                <div class="card-header"><h3>Vehicles</h3></div>
+                <div class="card-body" id="no-margin-padding">
+                    <% for(var i = 0; i < user.vehicles.length; i++) { %>
+                        <div class="car-block">
+                            <div id="display<%= i %>" style="display: block;">
+                                <h4>Make</h4>
+                                <p><%= user.vehicles[i].make %></p>
+                                <h4>Model</h4>
+                                <p><%= user.vehicles[i].model %></p>
+                                <h4>Year</h4>
+                                <p><%= user.vehicles[i].year %></p>
+                                <h4>VIN</h4>
+                                <p><%= user.vehicles[i].VIN %></p>
+                                <h4>mileage</h4>
+                                <p><%= user.vehicles[i].mileage %></p>
+                                <h4>license</h4>
+                                <p><%= user.vehicles[i].license %></p>
+                                <h4>engine</h4>
+                                <p><%= user.vehicles[i].engine %></p>
+                                <button id="button-white" onclick="showHideInfo<%= i %>()">Edit</button>
+                            </div>
+                        </div>
+                        <div id="edit<%= i %>" style="display: none;">
+                            <form action="/customer/<%= user._id %>/vehicle/<%= user.vehicles[i]._id %>/edit"
+                                  method="post">
+                                <label for="make">Enter make</label><br>
+                                <input id="make" class="form-control" type="text" name="make"
+                                       value="<%= user.vehicles[i].make %>"><br>
+                                <label for="model">Enter model</label><br>
+                                <input id="model" class="form-control" type="text" name="model"
+                                       value="<%= user.vehicles[i].model %>"><br>
+                                <label for="year">Enter year</label><br>
+                                <input id="year" class="form-control" type="number" name="year"
+                                       value="<%= user.vehicles[i].year %>">
+                                <label for="VIN">Enter VIN</label><br>
+                                <input id="VIN" class="form-control" type="text" name="VIN"
+                                       value="<%= user.vehicles[i].VIN %>"><br>
+                                <label for="mileage">Enter mileage</label><br>
+                                <input id="mileage" class="form-control" type="number" name="mileage"
+                                       value="<%= user.vehicles[i].mileage %>">
+                                <label for="license">Enter license</label><br>
+                                <input id="license" class="form-control" type="text" name="license"
+                                       value="<%= user.vehicles[i].license %>">
+                                <label for="engine">Enter engine</label><br>
+                                <input id="engine" class="form-control" type="text" name="engine"
+                                       value="<%= user.vehicles[i].engine %>">
+                                <form action="/customer/<%= user._id %>/vehicle/<%= user.vehicles[i]._id %>/edit"
+                                      method="post">
+                                    <input type="submit" id="button-normal" value="Edit">
+                                </form>
+                            </form>
+                            <div class="button-group">
+                                <button id="button-white" onclick="showHideInfo<%= i %>()">Cancel</button>
+                                <form action="/customer/<%= user._id %>/vehicle/<%= user.vehicles[i]._id %>/delete"
+                                      method="post">
+                                    <input type="submit" id="button-red" value="Delete">
+                                </form>
+                            </div>
+                            <script>
+                                function showHideInfo<%= i %>() {
+                                    var dis = document.getElementById("display<%= i %>");
+                                    var edit = document.getElementById("edit<%= i %>");
+                                    if (edit.style.display === "none") {
+                                        edit.style.display = "block";
+                                        dis.style.display = "none";
+                                    } else {
+                                        edit.style.display = "none";
+                                        dis.style.display = "block";
+                                    }
+                                }
+                            </script>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="car-block">
+                    <h3 style="margin: 5px 0px 20px 0px">Add A Vehicle</h3>
+                    <form action="/customer/<%= user._id %>/vehicle/add" method="post">
+                        <label for="make">Enter make</label>
+                        <input id="make" class="form-control" type="text" name="make" placeholder="make"><br>
+                        <label for="model">Enter model</label>
+                        <input id="model" class="form-control" type="text" name="model" placeholder="model"><br>
+                        <label for="year">Enter year</label>
+                        <input id="year" class="form-control" type="number" name="year" placeholder="year"><br>
+                        <label for="VIN">Enter VIN</label>
+                        <input id="VIN" class="form-control" type="text" name="VIN" placeholder="VIN"><br>
+                        <label for="mileage">Enter mileage</label><br>
+                        <input id="mileage" class="form-control" type="number" name="mileage" placeholder="mileage">
+                        <label for="license">Enter license</label><br>
+                        <input id="license" class="form-control" type="text" name="license" placeholder="license">
+                        <label for="engine">Enter engine</label><br>
+                        <input id="engine" class="form-control" type="text" name="engine" placeholder="engine">
+                        <input type="submit" id="button-normal" value="Add">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FAV-SHOP INFORMATION -->
+</div>
+</body>
+</html>

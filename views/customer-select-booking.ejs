@@ -1,0 +1,13 @@
+<html>
+<body>
+<div>
+    <h1>Select available time on <%= date %></h1>
+</div>
+<div>
+    <% for (var i = 0; i < validStartTime.length; i++) { %>
+        <input type="radio" name="startTime" value="<%= validStartTime[i] %>">
+        <p style="display:inline-block"><%= validStartTime[i] %></p><br>
+    <% } %>
+</div>
+</body>
+</html>

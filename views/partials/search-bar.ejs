@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+<h5 style="margin-bottom: 2px">Quick Search</h5>
+<form method="post" action="/shop/<%= user._id %>/search" , target="_blank">
+    <table style="width:100%;padding: 0;">
+        <tr>
+            <td style="height: 40px;width:160px">
+                <select class="custom-select" name="option" style="height: 40px; width: 160px">
+                    <option>All</option>
+                    <option>Customer details</option>
+                    <option>Vehicle details</option>
+                    <option>Repair Order details</option>
+                    <option>Invoice details</option>
+                    <option>Quote details</option>
+                </select>
+            </td>
+            <td style="height: 40px; width: auto">
+                <input style="height: 40px;width: 100%;margin: 0" type="text" placeholder="Search everything"
+                       id="search"
+                       name="search">
+            </td>
+            <td style="height: 40px; width: 120px">
+                <button class="button-normal" style="height:40px;margin: 0" type="submit">Search</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+
+</html>

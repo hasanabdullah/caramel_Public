@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <style type="text/css">
+        p:after {
+            content: "";
+            display: inline-block;
+            width: 0px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/public/javascripts/shop/jobs.js"></script>
+</head>
+<body>
+<%
+function getFormattedPhone(phone) {
+    phone = phone.toString();
+    return "(" + phone.substring(0, 3) + ") " + phone.substring(3, 6) + "-" + phone.substring(6, 10);
+}
+%>
+<% include partials/headers/jobs.ejs %>
+
+<div class="container-main">
+    <% include partials/search-bar.ejs %>
+    <h2>Canned Jobs</h2>
+    <div class="container-body">
+        <h5>Canned Jobs list</h5>
+
+        <table class="table-clean">
+            <tr>
+                <th>Service Name</th>
+                <th>Unit Cost($)</th>
+                <th>Type</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <% for(var i = 0; i < user.job.length; i++) { %>
+                <tr>
+                    <td>
+                        <p id="jobName<%= user.job[i]._id %>" onclick="this.contentEditable=true;"
+                           onblur="this.contentEditable=false;"
+                           title="Doubel click to edit you job name"><%= user.job[i].name %></p>
+                    </td>
+
+                    <td>
+                        <input type="text" id="cost<%= user.job[i]._id %>" readonly="true"
+                               ondblclick="this.readOnly='';"
+                               onblur="this.readOnly='true';" value="<%= user.job[i].unitCost %>"
+                               title="double click to edit unit cost" style="width: 120px">
+                    </td>
+
+                    <td>
+                        <div id="categoryDiv<%= user.job[i]._id %>" title="double click to enter and exit editing">
+                            <p id="jobCategory<%= user.job[i]._id %>"><%= user.job[i].category %></p>
+                            <span id="categorySpan<%= user.job[i]._id %>" style="display: none">
+
+                    <label class="label-radio">Labor
+                            <input type="radio" name="changeCategory" checked name="radio" value="Labor">
+                            <span class="checkmark"></span>
+                            </label>
+                    <label class="label-radio">Parts
+                            <input type="radio" name="changeCategory" name="radio" value="Parts">
+                            <span class="checkmark"></span>
+                            </label>
+                            <label class="label-radio">Fees
+                            <input type="radio" name="changeCategory" name="radio" value="Fees">
+                            <span class="checkmark"></span>
+                            </label>
+                    <button id="changeJob<%= user.job[i]._id %>" style="float:left; margin-right: 10px"
+                            class="button-normal">Edit Service</button>
+                </span>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <button type="submit" class="button-normal red" id="deleteJob<%= user.job[i]._id %>">Delete
+                        </button>
+    </div>
+    </td>
+    </tr>
+    <% } %>
+
+    </table>
+
+    <div class="line"></div>
+
+    <h5>Add</h5>
+
+    <form action="/shop/<%= user._id %>/jobs/job" method="post">
+        <table class="table-clean">
+            <tr>
+                <th><input style="width:150px" id="name" class="form-control" type="text" name="name"
+                           placeholder="Service Name" required></th>
+                <th><input style="width:150px" id="unitCost" class="form-control" type="text" name="unitCost"
+                           placeholder="Unit Cost" required></th>
+
+                <th><label class="label-radio">Labor
+                        <input type="radio" name="category" value="Labor" checked>
+                        <span class="checkmark"></span>
+                    </label></th>
+
+                <th><label class="label-radio">Parts
+                        <input type="radio" name="category" value="Parts">
+                        <span class="checkmark"></span>
+                    </label></th>
+                <th><label class="label-radio">Fees
+                        <input type="radio" name="category" value="Fees">
+                        <span class="checkmark"></span>
+                    </label></th>
+            </tr>
+        </table>
+
+
+        <button type="submit" class="button-normal">Add Job</button>
+    </form>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

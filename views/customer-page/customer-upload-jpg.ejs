@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+    <title>Upload JPG - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/customer-profile-styles.css">
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+    <script src="/fb-login.js"></script>
+</head>
+<body>
+
+<div class="header-top">
+    <!-- <a href="#default" class="logo"><img src="https://i.imgur.com/JP98HE9.png" height="75px"></a> -->
+    <a href="/" class="carma" style="line-height: 60px;">car</a><a href="/" class="guys"
+                                                                   style="line-height: 60px;">amel</a>
+    <div class="header-right">
+        <a href="#about">About</a>
+        <a onClick=fbLogout()>Log Out</a>
+    </div>
+</div>
+
+<div class="top-label">
+    <h1>Upload JPG</h1>
+    <!--UPLOAD NEW DOCUMENT SECTION-->
+<div class="container">
+    <div id="addInfo">
+
+        <form enctype="multipart/form-data" method="post" action="/customer/<%= user._id %>/uploads/jpg">
+            <h4>Add description</h4>
+            <input id="description" name="description" type="text" placeholder="description">
+            <input name="files" type="file" required multiple/>
+            <button type="submit">UPLOAD JPEG</button>
+        </form>
+
+        <a href="/customer/<%= user._id %>/uploads">
+            <button id="can">Cancel</button>
+        </a>
+    </div>
+</div>
+
+
+<script>
+    $('can').click(function () {
+        $('addInfo').hide();
+    })
+</script>
+
+</body>
+<script>
+
+    $(document).ready(function () {
+        $('addInfo').hide();
+        $('addNew').click(function () {
+            $('addInfo').show();
+        })
+        $('can').click(function () {
+            $('addInfo').hide();
+        })
+    })
+</script>
+</html>

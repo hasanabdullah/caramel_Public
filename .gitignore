@@ -1,0 +1,19 @@
+*.log
+*.pdf
+node_modules/
+customers/
+customersJpg/
+customersPdf/
+invoice/
+quote/
+images/
+upload/
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+.idea/
+.env
+package-lock.json
+README.md
+logos/

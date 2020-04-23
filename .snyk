@@ -1,0 +1,100 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.12.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:hoek:20180212':
+    - npm > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > hoek:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > node-gyp > request > hawk > hoek:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > hoek:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > hoek:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > node-gyp > request > hawk > hoek:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > hoek:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-09T18:54:40.331Z'
+  'npm:lodash:20180130':
+    - nodemailer-sendgrid-transport > sendgrid > lodash:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > cli-table2 > lodash:
+        patched: '2018-07-09T18:52:28.705Z'
+    - npm > npm-audit-report > cli-table2 > lodash:
+        patched: '2018-07-09T18:52:28.705Z'
+    - nodemailer-sendgrid-transport > sendgrid > lodash:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > cli-table2 > lodash:
+        patched: '2018-07-09T18:54:40.331Z'
+    - npm > npm-audit-report > cli-table2 > lodash:
+        patched: '2018-07-09T18:54:40.331Z'
+    - nodemailer-sendgrid-transport > sendgrid > lodash:
+        patched: '2018-08-15T16:20:16.174Z'
+    - nodemailer-sendgrid-transport > sendgrid > lodash:
+        patched: '2018-08-15T16:24:03.550Z'
+  'npm:hawk:20160119':
+    - google-distance > request > hawk:
+        patched: '2018-08-15T16:20:16.174Z'
+    - google-distance > request > hawk:
+        patched: '2018-08-15T16:24:03.550Z'
+  'npm:http-signature:20150122':
+    - google-distance > request > http-signature:
+        patched: '2018-08-15T16:20:16.174Z'
+    - google-distance > request > http-signature:
+        patched: '2018-08-15T16:24:03.550Z'
+  'npm:mime:20170907':
+    - google-distance > request > mime:
+        patched: '2018-08-15T16:20:16.174Z'
+    - google-distance > request > form-data > mime:
+        patched: '2018-08-15T16:20:16.174Z'
+    - google-distance > request > mime:
+        patched: '2018-08-15T16:24:03.550Z'
+    - google-distance > request > form-data > mime:
+        patched: '2018-08-15T16:24:03.550Z'
+  'npm:qs:20140806-1':
+    - google-distance > request > qs:
+        patched: '2018-08-15T16:20:16.174Z'
+    - google-distance > request > qs:
+        patched: '2018-08-15T16:24:03.550Z'
+  'npm:request:20160119':
+    - google-distance > request:
+        patched: '2018-08-15T16:20:16.174Z'
+    - google-distance > request:
+        patched: '2018-08-15T16:24:03.550Z'

@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/shop-profile-styles.css">
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/public/javascripts/shop/invoice-detail.js"></script>
+</head>
+
+
+<body>
+
+<% include ../../partials/shop-header.ejs %>
+<% include partials/search-bar.ejs %>
+<div class="top-label">
+    <h1>Invoice Details</h1>
+</div>
+
+<div class="container">
+    <div class="links">
+        <a href="/shop/<%= user._id %>/profile">
+            <div class="link-head">
+                <p>Dashboard</p>
+            </div>
+        </a>
+        <a href="/shop/<%= user._id %>/orders">
+            <div class="link-head">
+                <p>Repair Orders</p>
+            </div>
+        </a>
+        <a href="/shop/<%= user._id %>/home">
+            <div class="link-head">
+                <p>Calendar</p>
+            </div>
+        </a>
+        <a href="/shop/<%= user._id %>/invoice">
+            <div class="link-head" id="active">
+                <p>Invoices</p>
+            </div>
+        </a>
+        <a href="/shop/<%= user._id %>/customer">
+            <div class="link-head">
+                <p>Customers</p>
+            </div>
+        </a>
+        <a href="/shop/<%= user._id %>/technician">
+            <div class="link-head"><p>Technicians</p></div>
+        </a>
+        <a href="/shop/<%= user._id %>/jobs">
+            <div class="link-head"><p>Canned Jobs</p></div>
+        </a>
+        <a href="/shop/<%= user._id %>/quote">
+            <div class="link-head"><p>Quotes</p></div>
+        </a>
+    </div>
+
+    <div class="right-container">
+
+        <div class="right-head">
+            <p>Invoice Details</p>
+        </div>
+        <div class="right-body">
+            <h4>Name</h4>
+            <a href="/shop/<%= user._id %>/customer/<%= invoice.customer._id %>">
+                <% if (invoice.customer.accountType === 'personal') { %>
+                    <p><%= invoice.customer.firstName %> <%= invoice.customer.lastName %></p>
+            </a>
+            <% } else { %>
+                <p><%= invoice.customer.companyName %></p></a>
+            <% } %>
+            <h4>Vehicle</h4>
+            <p><%= invoice.vehicle.year %> <%= invoice.vehicle.make %> <%= invoice.vehicle.model %></p>
+            <h4>Date Created</h4>
+            <p><%= invoice.dateCreated.toLocaleDateString('en-US') %></p>
+        </div>
+        <div class="right-body">
+            <h4>Invoice Options</h4>
+            <form action="/shop/<%= user._id %>/invoice/<%= invoice._id %>/print" method="post"
+                  style="float: left;margin-right: 20px;" target="_blank">
+                <button id="button-white">Print</button>
+            </form>
+            <form action="" method="" style="margin-right: 20px;">
+                <button id="button-white" onclick="notify()">Customize</button>
+            </form>
+            <% if (invoice.remaining == invoice.amount) { %>
+                <button type="submit" class="button-red" id="reopen">Reopen order</button>
+            <% } %>
+            <% if(!invoice.status) { %>
+                <input id="payment" type="number" value="0" min="0" step="0.01" title="enter amount paid">
+                <button id="submitPayment" type="submit" name="<%= invoice.remaining %>">input as paid</button>
+                <% if(invoice.customer.email != "") { %>
+                    <form action="/shop/<%= user._id %>/invoice/<%= invoice._id %>/remind/<%= invoice.customer.email %>"
+                          method="post" style="margin-right: 20px;">
+                        <button id="button-white" onclick="notifyEmail()">Email invoice</button>
+                    </form>
+                    <% if(invoice.lastMailDate != undefined) { %>
+                        <h4>Last Email Sent: <%= invoice.lastMailDate.toLocaleDateString('en-US') %></h4>
+                    <% } else{ %>
+                        <h4>No email has been sent</h4>
+                    <% } %>
+                <% } else{ %>
+                    <form action="/shop/<%= user._id %>/invoice/<%= invoice._id %>/detail" method="get"
+                          style="margin-right: 20px;">
+                        <button id="button-white" onclick="notifyNoEmail()">Email invoice</button>
+                    </form>
+                <% } %>
+            <% } %>
+        </div>
+
+        <div class="right-body" style="height: 700px">
+            <h4>Invoice Preview</h4>
+            <iframe src="<%= link %>" width="100%" height="650px">
+                <p>Your browser does not support iframes.</p>
+            </iframe>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

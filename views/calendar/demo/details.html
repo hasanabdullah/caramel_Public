@@ -1,0 +1,20 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title">Appointment Details</h3>
+    </div>
+    <div class="modal-body">
+        <p>Firstname: {{item.firstname}} &emsp; Lastname: {{item.lastname}} &emsp; Email: {{item.email}} &emsp; Phone:
+            {{item.phone}}</p>
+        <p>Vehicle Make: {{item.make}} &emsp; Vehicle Model: {{item.model}} &emsp; Vehicle Year: {{item.year}}</p>
+        <fieldset ng-disabled="edit">
+            <p>Description <input ng-model="item.description"></p>
+            <p>Start Time <input ng-model="item.startTime"> End Time <input ng-model="item.endTime"></p>
+
+        </fieldset>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-show="create" ng-click="Create()">Create Repair Order</button>
+        <button class="btn btn-danger" ng-click="Delete()">Delete</button>
+        <button class="btn btn-warning" ng-click="Cancel()">Cancel</button>
+    </div>
+</div>

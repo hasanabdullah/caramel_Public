@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/css/responsive-table-styles.css">
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script
+            src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+            crossorigin="anonymous"></script>
+    <script src="../../../public/javascripts/shop/invoice.js"></script>
+</head>
+<body>
+<% include partials/headers/invoices.ejs %>
+
+<div class="container-main">
+    <% include partials/search-bar.ejs %>
+
+    <h2>Invoices</h2>
+    <div class="container-body">
+
+        <!-- table head -->
+        <table id="invoiceTable" class="cell-border compact stripe">
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>Name</td>
+                <td>Vehicle</td>
+                <td>License Plate</td>
+                <td>Date Created</td>
+                <td>Invoice Total</td>
+                <td>Remaining Balance</td>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% for(var i = 0; i < invoices.length; i++) { %>
+                <tr id="invoiceList<%= invoices[i]._id %>/<%= invoices[i].order._id %>">
+                    <% if (invoices[i].uniqueId === undefined) { %>
+                        <td>N/A</td>
+                    <% } else { %>
+                        <td><%= invoices[i].uniqueId %></td>
+                    <% } %>
+                    <td>
+                        <% if (invoices[i].customer.accountType === 'personal') { %>
+                            <%= invoices[i].customer.firstName %> <%= invoices[i].customer.lastName %>
+                        <% } else { %>
+                            <%= invoices[i].customer.companyName %>
+                        <% } %>
+                    </td>
+                    <td>
+                        <%= invoices[i].vehicle.make %>,
+                        <%= invoices[i].vehicle.model %>,
+                        <%= invoices[i].vehicle.year %>
+                    </td>
+                    <td>
+                        <%= invoices[i].vehicle.license %>
+                    </td>
+
+                    <td>
+                        <%= invoices[i].dateCreated.toLocaleDateString('en-US') %>
+                    </td>
+                    <td>$<%= invoices[i].amount %></td>
+                    <% if(invoices[i].remaining == 0 && invoices[i].status){ %>
+                        <td>PAID</td>
+                    <% } else{ %>
+                        <td>$<%= invoices[i].remaining %></td>
+                    <% } %>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<div id="dialog" title="Invoice Selected" style="background: #1b95f1 ">
+    <p>Please select option below</p>
+</div>
+</body>
+</html>

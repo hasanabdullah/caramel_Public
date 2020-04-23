@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repair Order List - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/css/responsive-table-styles.css">
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/public/javascripts/shop/order.js"></script>
+</head>
+<body>
+
+<% include partials/headers/repairs.ejs %>
+
+<div class="container-main">
+    <% include partials/search-bar.ejs %>
+    <h2>repair order list</h2>
+
+    <div class="container-body">
+
+        <h5 style="margin-bottom: 20px;">Create New Repair Order</h5>
+        <a href="customer/add">
+            <button class="button-normal" type="submit" style="margin-right: 10px">New Customer
+            </button>
+        </a>
+        <button class="button-normal" type="button" id="existing" style="display: inline-block;width: 170px;">Existing
+            Customer
+        </button>
+
+        <form id="newForm" style="display: none;">
+            <input list="nameList" class="form-control" style="width: 250px" id="nameInput"/>
+            <datalist id="nameList">
+                <% for(var i = 0; i < user.customer.length; i++) { %>
+                <% if (user.customer[i].accountType === 'personal') { %>
+                    <option id="<%= user.customer[i]._id %>"><%= user.customer[i].firstName %> <%= user.customer[i].lastName %></option>
+                <% } else { %>
+                    <option id="<%= user.customer[i]._id %>"><%= user.customer[i].companyName %></option>
+                <% } %>
+                <% } %>
+            </datalist>
+            <h4 for="nameList">Customer</h4>
+            <input list="vehicleList" class="form-control" style="width: 250px" id="vehicleInput" disabled/>
+            <datalist id="vehicleList">
+            </datalist>
+            <h4 for="vehicleList">Vehicle</h4>
+
+            <a id="add" class="button-normal">Add Order</a>
+
+            <button class="button-normal" style="display: none" type="button" id="addOrder">Create New</button>
+
+        </form>
+
+        <div id="currentOrders" style="display: none">
+            <b>OR</b> continue with existing orders:
+            <br/>
+        </div>
+
+        <div class="line"></div>
+
+
+        <table id="repairsTable" class="cell-border compact stripe">
+            <thead>
+            <tr style="margin: 10px 0">
+                <td>ID</td>
+                <td>Vehicle</td>
+                <td>Licence Plate</td>
+                <td>Customer Name</td>
+                <td>Phone #</td>
+                <td>Date Created</td>
+                <td>Last Modified</td>
+                <td>Status</td>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- table body -->
+            <% for(var i = 0; i < order.length; i++) { %>
+                <tr onclick="window.location='/shop/<%= user._id %>/orders/<%= order[i]._id %>'">
+                    <% if (order[i].uniqueId === undefined) { %>
+                        <td>N/A</td>
+                    <% } else { %>
+                        <td><%= order[i].uniqueId %></td>
+                    <% } %>
+                    <td><%= order[i].vehicle.year %> <%= order[i].vehicle.make %> <%= order[i].vehicle.model %></td>
+                    <td><%= order[i].vehicle.license %></td>
+                    <td><%= order[i].customer.firstName %> <%= order[i].customer.lastName %></td>
+                    <td><%= order[i].customer.phone %></td>
+                    <td data-sort="<%= order[i].dateCreated.getTime() %>"><%= order[i].dateCreated.toLocaleDateString('en-US') %></td>
+                    <% if (new Date().toLocaleDateString() === order[i].lastModified.toLocaleDateString()) { %>
+                        <td data-sort="<%= order[i].lastModified.getTime() %>"><%= order[i].lastModified.toLocaleTimeString('en-US', {
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            }) %></td>
+                    <% } else { %>
+                        <td data-sort="<%= order[i].lastModified.getTime() %>"><%= order[i].lastModified.toLocaleDateString('en-US') %></td>
+                    <% } %>
+                    <% if (!order[i].status) { %>
+                        <td>In progress</td>
+                    <% } else{ %>
+                        <td>Closed</td>
+                    <% } %>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Quote</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/invoice-printable-style.css">
+    <style type="text/css" media="print">
+        @page {
+            size: auto;   /* auto is the initial value */
+            margin: 0mm;  /* this affects the margin in the printer settings */
+        }
+    </style>
+</head>
+<%
+function getFormattedPhone(phone) {
+    if (phone !== '') {
+        phone = phone.toString();
+        phone = phone.replace(/-/g, '');
+        phone = phone.replace(/\)/g, '');
+        phone = phone.replace(/\(/g, '');
+        return "(" + phone.substring(0, 3) + ") " + phone.substring(3, 6) + "-" + phone.substring(6, 10);
+    }
+    return phone;
+}
+%>
+<%
+function getLaborTotal() {
+    var laborTotal = 0;
+    for (var i = 0; i < quote.service.length; i++) {
+        if (quote.service[i].category === "Labor") {
+            laborTotal += quote.service[i].quantity * quote.service[i].unitCost;
+        }
+    }
+    return laborTotal;
+}
+%>
+
+<%
+function getPartsTotal() {
+    var partsTotal = 0;
+    for (var i = 0; i < quote.service.length; i++) {
+        if (quote.service[i].category === "Parts") {
+            partsTotal += quote.service[i].quantity * quote.service[i].unitCost;
+        }
+    }
+    return partsTotal;
+}
+%>
+
+<%
+function getFeesTotal() {
+    var feesTotal = 0;
+    for (var i = 0; i < quote.service.length; i++) {
+        if (quote.service[i].category === "Fees") {
+            feesTotal += quote.service[i].quantity * quote.service[i].unitCost;
+        }
+    }
+    return feesTotal;
+}
+%>
+
+<body>
+
+<table style="width: 100%; table-layout: fixed">
+    <tr>
+        <td>
+            <!-- shop logo-->
+        </td>
+        <td style="text-align: center">
+            <p>Service Quote<br><%= quote.dateCreated.toLocaleDateString('en-US') %></p>
+        </td>
+        <td style="text-align: right">
+            <p style="margin: 0;padding: 0;font-size: 14px"><b><%= quote.shop.name %></b></p>
+            <p style="font-size: 12px"><%= quote.shop.address %><br><%= quote.shop.city %>, <%= quote.shop.state %>
+                , <%= quote.shop.zip %>
+                <br>
+                <% if (quote.shop.phone === undefined) { %>
+                    N/A
+                <% } else { %>
+                    <%= getFormattedPhone(quote.shop.phone) %>
+                <% } %>
+            </p>
+        </td>
+    </tr>
+</table>
+
+<div class="lower-block">
+    <table style="width: 100%; table-layout: fixed;font-size: 12px">
+        <tr>
+            <td>
+                <p>
+                    <b>Customer</b>
+                </p>
+                <p>
+                    <% if (quote.customer.accountType === 'personal') { %>
+                        <%= quote.customer.firstName %> <%= quote.customer.lastName %><br>
+                    <% } else { %>
+                        <%= quote.customer.companyName %><br>
+                    <% } %>
+                    <%= quote.customer.address %> <%= quote.customer.city %> <%= quote.customer.state %> <%= quote.customer.zip %>
+                    <br>
+                    <% if (quote.customer.phone === undefined) { %>
+                        N/A
+                    <% } else { %>
+                        <%= getFormattedPhone(quote.customer.phone) %>
+                    <% } %>
+                    <br> <%= quote.customer.email %>
+                </p>
+            </td>
+            <td>
+            </td>
+            <td style="padding-top: 0;margin-top: 0; vertical-align: top">
+                <table style="width: 100%; table-layout: fixed; font-size: 12px;margin-top: 0">
+                    <tr>
+                        <td>Vehicle Details</td>
+                        <td><%= quote.vehicle.year %> <%= quote.vehicle.make %> <%= quote.vehicle.model %></td>
+                    </tr>
+                    <tr>
+                        <td>Date of Arrival:</td>
+                        <td><%= quote.order.dateCreated.toLocaleDateString('en-US') %></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <div class="billing-address">
+    </div>
+
+    <div class="items">
+        <div class="items-header">
+            <table>
+                <tr>
+                    <td><b>Type</b></td>
+                    <td><b>Description</b></td>
+                    <td><b>Quantity</b></td>
+                    <td><b>Rate</b></td>
+                    <td><b>Line Total</b></td>
+                </tr>
+            </table>
+        </div>
+        <div class="items-list">
+            <table id="invoice">
+                <% var fee = 0 %>
+                <% for(var i = 0; i < quote.service.length; i++) { %>
+                    <% fee += quote.service[i].quantity * quote.service[i].unitCost %>
+                    <tr>
+                        <td><%= quote.service[i].category %></td>
+                        <td><%= quote.service[i].name %></td>
+                        <% if(quote.service[i].category === 'Labor') { %>
+                            <td><%= quote.service[i].quantity %> hrs</td>
+                            <td>$<%= quote.service[i].unitCost %> /hr</td>
+                        <% } else { %>
+                            <td><%= quote.service[i].quantity %></td>
+                            <td>$<%= quote.service[i].unitCost %></td>
+                        <% } %>
+                        <td>$<%= (quote.service[i].quantity * quote.service[i].unitCost).toFixed(2) %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </div>
+
+        <div class="billing-details">
+            <table>
+                <tr>
+                    <td style="width: 4.5in"></td>
+                    <td></td>
+                    <td>Labor Subtotal</td>
+                    <td>$<%= getLaborTotal().toFixed(2) %></td>
+                </tr>
+                <tr>
+                    <td style="width: 4.5in"></td>
+                    <td></td>
+                    <td>Parts Subtotal</td>
+                    <td>$<%= getPartsTotal().toFixed(2) %></td>
+                </tr>
+                <tr>
+                    <td style="width: 4.5in"></td>
+                    <td></td>
+                    <td>Labor Taxes</td>
+                    <td>$<%= (getLaborTotal() * quote.order.laborTax / 100).toFixed(2) %></td>
+                </tr>
+                <tr>
+                    <td style="width: 4.5in"></td>
+                    <td></td>
+                    <td>Parts Taxes</td>
+                    <td>$<%= (getPartsTotal() * quote.order.partsTax / 100).toFixed(2) %></td>
+                </tr>
+                <tr>
+                    <td style="width: 4.5in"></td>
+                    <td></td>
+                    <td>Fees</td>
+                    <td>$<%= getFeesTotal().toFixed(2) %></td>
+                </tr>
+                <tr>
+                    <td style="width: 4.5in"></td>
+                    <td></td>
+                    <td>Total</td>
+                    <td>$<%= quote.amount %></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <div>
+        <p style="font-size: 12px">
+            I authorize <%= quote.shop.name %> to perform any diagnosis, testing, and disassembly of the vehicle or
+            subsystem(s) to identify, assess and estimate repair costs, and/or perform the necessary repair work
+            herein set forth along with the necessary material(s) outlined before me by <%= quote.shop.name %>. I am the
+            person, or agent acting on behalf of the person, who is obligated to pay for the repair of the motor
+            vehicle mentioned and hereby grant approval to proceed. I understand that <%= quote.shop.name %> is not
+            responsible for lost or damaged property while the vehicle is in/at the facility for service work.
+        </p>
+        <table>
+            <tr style="font-size:12px">
+                <td><b>Signature</b>_______________________________________________________</td>
+                <td style="text-align: right">
+                    <b>Date</b>____________________
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+
+</html>

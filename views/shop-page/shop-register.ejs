@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Log In - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+    <script src="/public/javascripts/index/shop-signup.js"></script>
+</head>
+<body>
+
+<body>
+
+<div class="top-header">
+    <div class="header-logo">
+
+    </div>
+    <div class="header-navigation">
+    </div>
+    <div class="header-right" style="width: 300px">
+        <p style="float: left;margin-right: 30px"><a href="/customer-login">CUSTOMER LOGIN</a></p>
+        <p style="float: left"><a class="active" href="/shop-login">SIGN IN</a></p>
+    </div>
+</div>
+
+<div class="container-main" style="float: left;width: 50%">
+    <h1 style="text-align: left;font-family: inherit; margin-top: 150px;margin-left: 30%;font-size: 24px;margin-bottom: -30px">
+        Welcome to</h1>
+    <h1 style="text-align: left;font-family: 'Lobster';margin-left: 30%;font-size: 92px;margin-top:0">caramel</h1>
+</div>
+
+
+<div class="container-main" style="float:left; width: 50%">
+
+    <div class="container-body" style="width: 300px">
+        <h5 style="font-size: 22px;margin-bottom: 50px;text-transform: none; color: #666; font-weight: 300">Register
+            your account</h5>
+        <% if (message) { %>
+            <%= message %>
+        <% } %>
+
+        <form action="/shop-register" method="post" id="register">
+            <div class="form-group">
+                <h4 style="margin-top:20px; margin-bottom:2px">Email Address</h4>
+                <input data-validation="email" style="width: 300px" class="form-control" name="email" type="email"
+                       data-validation-help="Please enter your email."
+                       data-validation-error-msg="Invalid email address"
+                       required>
+            </div>
+            <div class="form-group">
+                <h4 style="margin-top:20px; margin-bottom:2px">Create Password</h4>
+                <input type="password" style="width: 300px" class="form-control" name="password"
+                       data-validation="strength"
+                       data-validation-strength="3"
+                       data-validation-help="length:8-20,1 uppercase, 1 lowercase, 1 digit, 1 special character"
+                       data-validation-error-msg="Invalid password pattern"
+                       required><br>
+                <h4 style="margin-top:20px; margin-bottom:2px">Retype Password</h4>
+                <input type="password" style="width: 300px;margin-bottom: 25px" class="form-control"
+                       data-validation="confirmation"
+                       data-validation-confirm="password" data-validation-help="Retype your password"
+                       data-validation-error-msg="Passwords don't match"
+                       required><br>
+            </div>
+            <button type="submit" class="button-normal">Create Shop</button>
+        </form>
+        <h2 style="font-variant: normal;font-size: 14px; font-weight: 300"><a href="/shop-login" id="redirect">Already
+                have a ShopID? Click Here</a></h2>
+        <h2 style="font-variant: normal;font-size: 14px; font-weight: 300"><a href="/customer-login">Are you a Customer?
+                Click Here</a></h2>
+    </div>
+</div>
+</div>
+<div class="white-space"></div>
+</body>
+</html>

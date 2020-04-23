@@ -1,0 +1,100 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/responsive-table-styles.css">
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/public/javascripts/shop/vehicles.js"></script>
+    <script src="/public/javascripts/shop/profile.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/responsive-table-styles.css">
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script src="/public/javascripts/shop/profile.js"></script>
+</head>
+<body>
+<%
+function getFormattedDate(date) {
+    var year = date.getFullYear();
+    var month = (1 + date.getMonth()).toString();
+    month = month.length > 1 ? month : '0' + month;
+    var day = date.getDate().toString();
+    day = day.length > 1 ? day : '0' + day;
+    return month + '/' + day + '/' + year;
+}
+%>
+<% include partials/headers/vehicles.ejs %>
+<div class="container-main">
+    <% include partials/search-bar.ejs %>
+
+    <h2>Vehicles</h2>
+    <div class="container-body">
+
+
+        <table id="vehicleTable" class="table-clean">
+            <thead>
+            <th>
+                Vehicle
+            </th>
+            <th>
+                License plate
+            </th>
+            <th>
+                Customer Name
+            </th>
+            <th>
+                Date of Last Service
+            </th>
+            </thead>
+            <tbody>
+            <% for (var i = 0; i < user.customer.length; i++) { %>
+                <% for (var j = 0; j < user.customer[i].vehicles.length; j++) { %>
+                    <tr>
+                        <td>
+                            <%= user.customer[i].vehicles[j].make %> <%= user.customer[i].vehicles[j].model %> <%= user.customer[i].vehicles[j].year %>
+                        </td>
+                        <td>
+                            <%= user.customer[i].vehicles[j].license %>
+                        </td>
+                        <% if (user.customer[i].accountType === 'personal') { %>
+                            <td>
+                                <%= user.customer[i].firstName %> <%= user.customer[i].lastName %>
+                            </td>
+                        <% } else { %>
+                            <td>
+                                <%= user.customer[i].companyName %>
+                            </td>
+                        <% } %>
+                        <td>
+                            <% if (user.customer[i].vehicles[j].lastInDate === undefined) { %>
+                                N/A
+                            <% } else { %>
+                                <%= getFormattedDate(user.customer[i].vehicles[j].lastInDate); %>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function getFormattedDate(date) {
+        var year = date.getFullYear();
+        var month = (1 + date.getMonth()).toString();
+        month = month.length > 1 ? month : '0' + month;
+        var day = date.getDate().toString();
+        day = day.length > 1 ? day : '0' + day;
+        return month + '/' + day + '/' + year;
+    }
+</script>
+</body>
+</html>

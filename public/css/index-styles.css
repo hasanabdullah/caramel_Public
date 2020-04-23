@@ -1,0 +1,331 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+}
+
+html {
+    box-sizing: border-box;
+    overflow-y: scroll;
+    background: linear-gradient(
+            rgba(0, 0, 0, .4),
+            rgba(0, 0, 0, .2)),
+    url("https://i.imgur.com/Az8ikV5.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+.white-space {
+    height: 50px;
+}
+
+.header-top {
+    background-color: rgba(0, 0, 0, .5);
+    overflow: hidden;
+    padding: 10px 120px 15px 120px;
+    font-size: 28px;
+    margin-bottom: 80px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, .1)
+}
+
+.header-top a {
+    text-decoration: none;
+    line-height: 10px;
+}
+
+.header-top a.carma {
+    position: relative;
+    top: 12px;
+    font-weight: bold;
+    color: #33a1f7;
+    margin-right: 0px;
+}
+
+.header-top a.guys {
+    position: relative;
+    top: 12px;
+    font-weight: 300;
+    color: #6c8393;
+}
+
+.header-top a.version {
+    margin-left: 10px;
+    color: #4b5665;
+    position: relative;
+    top: 0px;
+    font-size: 12px;
+}
+
+.header-top .header-right a {
+    font-weight: 600;
+    width: 100px;
+    margin-top: 15px;
+    margin-left: 5px;
+    text-decoration: none;
+    color: #6c8393;
+    text-align: center;
+    padding: 12px 0px 12px 0px;
+    font-size: 14px;
+    line-height: 12px;
+    border-radius: 25px;
+    float: left;
+}
+
+.header-top .header-right a:hover {
+    color: white;
+}
+
+.header-top .header-right a.logo {
+    font-weight: 300;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.header-top .header-right a.active {
+    background-color: #33a1f7;
+    color: white;
+}
+
+.header-right {
+    float: right;
+}
+
+.line {
+    background-image: -webkit-linear-gradient(left, #33a1f7, #8f31fa);
+    height: 1px;
+    width: 100%;
+    margin-bottom: 100px;
+}
+
+.headline {
+    margin-top: 0px;
+    margin-bottom: 40px;
+}
+
+.headline .top-headline {
+    margin-bottom: 0px;
+}
+
+.headline .top-headline p {
+    background-image: -webkit-linear-gradient(left, #32adff, #8f31fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0px;
+    padding-top: 14px;
+    font-size: 56px;
+    font-weight: 100;
+    text-align: center;
+
+    display: block;
+}
+
+.headline .sub-headline {
+    margin: 0px;
+}
+
+.headline .sub-headline p {
+    text-align: center;
+    font-size: 22px;
+    width: 700px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: #ffffff;
+}
+
+.selections {
+    margin: 0px auto;
+    width: 700px;
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
+    display: block;
+}
+
+.selections div {
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    margin: 0 30px 0px 30px;
+    height: 60px;
+    width: 200px;
+    padding: 10px 0px;
+    border-radius: 30px;
+    background-color: #31a9fa;
+    border: 1px solid #31a9fa;
+    transition: all .3s;
+}
+
+.selections div:hover {
+    background-color: #31a9fa;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transform: translatey(-3px);
+}
+
+.selections div:hover p {
+    color: white;
+}
+
+.selections .button-shop-login:hover {
+    background-color: #FFB833;
+    color: white;
+}
+
+.selections a {
+    color: white;
+    text-decoration: none;
+}
+
+.selections p {
+    margin: 0px;
+    text-align: center;
+    padding-top: 5px;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.selections .how-it-works {
+    background-color: rgba(0, 0, 0, .5);
+    color: #31a9fa;
+}
+
+.selections .make-appt {
+    border: 1px solid white;
+    background: -webkit-linear-gradient(left, #31a9fa, #8f31fa);
+}
+
+.selections .button-shop-login {
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, .5);
+    color: #FFB833;
+}
+
+.selections .button-shop-register {
+    border: 1px solid white;
+    background: -webkit-linear-gradient(left, #FFB833, #ff6e50);
+}
+
+.selections .services {
+    background-color: #5c5c5c;
+}
+
+.selections .faq {
+    background-color: #5c5c5c;
+}
+
+.bodyA {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 30px 0px 50px 0px;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.bodyA .top-bodyA {
+    color: #ffb833;
+    font-size: 46px;
+    font-weight: 100;
+}
+
+.bodyA .body-bodyA {
+    color: #383838;
+    font-weight: 300px;
+    font-size: 14px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;
+    width: 650px;
+    font-size: 18px;
+    line-height: 180%;
+}
+
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    border: 1px solid #33a1f7;
+    padding: 20px 35px;
+    color: #353535;
+    transition: box-shadow .2s;
+}
+
+.container:hover {
+    box-shadow: 0px 0px 30px rgba(63, 192, 253, 0.3);
+}
+
+.container h1 {
+    font-weight: 300;
+    margin-bottom: 45px;
+}
+
+.container label {
+    font-weight: 400;
+    font-size: 13px;
+    margin-bottom: 5px;
+    margin-top: 0px;
+}
+
+.container p {
+    font-size: 14px;
+}
+
+.container .form-control {
+    transition: box-shadow 0.35s;
+    color: #353535;
+    background-color: transparent;
+    border: 1px solid #33a1f7;
+    border-radius: 5px;
+    width: 100%;
+    -webkit-appearance: none;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding: 10px 10px;
+}
+
+.container .form-control:hover {
+
+    outline: none;
+    box-shadow: 0px 0px 30px rgba(51, 161, 247, 0.3);
+}
+
+.container button {
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    background-color: #33a1f7;
+    color: white;
+    border: 1px solid #33a1f7;
+    border-radius: 20px;
+    padding: 10px 35px;
+    font-weight: 500;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+/* Edit stuff */
+
+.container button:hover {
+
+    background: white;
+    color: #33a1f7;
+    box-shadow: 0px 0px 30px rgba(255, 255, 255, .2);
+}
+
+.container a {
+    text-decoration: none;
+    color: #6c8393;
+}
+
+.container #redirect {
+    color: #33a1f7;
+}

@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Log In - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/public/javascripts/index/shop-login.js"></script>
+</head>
+<style>
+    #welcome {
+        -webkit-animation-name: slide; /* Safari 4.0 - 8.0 */
+        -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
+        animation-name: slide;
+        animation-duration: 1s;
+    }
+
+    #caramel {
+        -webkit-animation-name: slide2; /* Safari 4.0 - 8.0 */
+        -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
+        animation-name: slide2;
+        animation-duration: 1s;
+    }
+
+    /* Safari 4.0 - 8.0 */
+    @-webkit-keyframes slide {
+        from {
+            opacity: 0;
+            margin-left: 40%
+        }
+        to {
+            opacity: 1;
+            margin-left: 30%
+        }
+    }
+
+    /* Standard syntax */
+    @keyframes slide {
+        from {
+            opacity: 0;
+            margin-left: 40%
+        }
+        to {
+            opacity: 1;
+            margin-left: 30%
+        }
+    }
+
+    @-webkit-keyframes slide2 {
+        from {
+            opacity: 0;
+            margin-left: 50%
+        }
+        to {
+            opacity: 1;
+            margin-left: 30%
+        }
+    }
+
+    /* Standard syntax */
+    @keyframes slide2 {
+        from {
+            opacity: 0;
+            margin-left: 50%
+        }
+        to {
+            opacity: 1;
+            margin-left: 30%
+        }
+    }
+</style>
+
+<body>
+
+<div class="top-header">
+    <div class="header-logo">
+
+    </div>
+    <div class="header-navigation">
+    </div>
+    <div class="header-right" style="width: 300px">
+    </div>
+</div>
+
+<div class="container-main" style="float: left;width: 50%">
+    <h1 id="welcome"
+        style="text-align: left;font-family: inherit; margin-top: 150px;margin-left: 30%;font-size: 24px;margin-bottom: -30px">
+        Welcome to</h1>
+    <h1 id="caramel" style="text-align: left;font-family: 'Lobster';margin-left: 30%;font-size: 92px;margin-top:0">
+        caramel</h1>
+</div>
+
+
+<div class="container-main" style="float:left; width: 50%">
+    <a href="/shop-login">
+        <button class="button-normal no-border"
+                style="margin-top: 130px; font-size: 20px; width: 300px;height: 55px; font-weight: 300;text-transform: none">
+            Login
+        </button>
+    </a><br>
+    <a href="/shop-register">
+        <button class="button-normal"
+                style="font-size: 20px; width: 300px;font-weight: 300;height: 55px;text-transform: none">Create an
+            Account
+        </button>
+    </a>
+</div>
+</div>
+<div class="white-space"></div>
+</body>
+</html>

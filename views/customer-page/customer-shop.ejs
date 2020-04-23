@@ -1,0 +1,39 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <script src="/public/javascripts/customer/fav.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script src="/fb-login.js"></script>
+</head>
+<body>
+<% include partials/headers/customer-profile.ejs %>
+<%
+function distance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;    // Math.PI / 180
+    var c = Math.cos;
+    var a = 0.5 - c((lat2 - lat1) * p) / 2 + c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+}
+%>
+<%= message %>
+<form action="/customer/<%= user._id %>/shops" method="post">
+    <input name="address" type="text" placeholder="enter address" required/><br>
+    <button type="submit">Submit</button>
+</form>
+<% for (var i = 0; i < results.length; i++) { %>
+    <div>
+        Name:<a href="/customer/<%= user._id %>/shops/<%= results[i].place_id %>"><%= results[i].name %></a><br>
+        Location:<%= results[i].vicinity %><br>
+        <% if (results[i].rating === undefined) { %>
+            Rating:N/A<br>
+        <% } else { %>
+            Rating:<%= results[i].rating %><br>
+        <% } %>
+        Distance: <%= distance(results[i].geometry.location.lat, results[i].geometry.location.lng, location.lat, location.lng).toFixed(2) %>km<br>
+
+    </div>
+<% } %>
+</body>
+</html>

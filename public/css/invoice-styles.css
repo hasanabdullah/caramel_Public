@@ -1,0 +1,76 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+}
+
+html {
+    box-sizing: border-box;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background: linear-gradient(
+            rgba(230, 230, 230, 1),
+            rgba(255, 255, 255, 1));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+
+h2, h3, h4 {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.top-label {
+    margin-left: 150px;
+    font-size: 24px;
+    margin-bottom: 50px;
+    color: #6c8393;
+}
+
+.top-label h2 {
+    font-weight: 300;
+}
+
+/* TABLE */
+
+#invoice {
+    font-family: 'Open Sans', sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+    margin: 0 auto;
+}
+
+#invoice td, #invoice th {
+    padding: 18px;
+}
+
+#invoice tr:nth-child(even) {
+    background-color: #a0a0a0;
+}
+
+#invoice tr:hover {
+    background-color: #ddd;
+}
+
+#invoice th {
+    padding-top: 18px;
+    padding-bottom: 18px;
+    text-align: left;
+    background-color: #33a1f7;
+    color: white;
+}
+
+#invoice a {
+    text-decoration: none;
+    color: #4b5665;
+}

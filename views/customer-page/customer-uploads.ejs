@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+    <title>Your Uploads - Caramel</title>
+    <link rel="stylesheet" type="text/css" href="/css/customer-profile-styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/modern-styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+    <script src="/fb-login.js"></script>
+    <script src="uploads/uploads.js"></script>
+</head>
+<style>
+        table, th , td  {
+          border: 1px solid grey;
+          border-collapse: collapse;
+          padding: 5px;
+        }
+        table tr:nth-child(odd) {
+          background-color: #f1f1f1;
+        }
+        table tr:nth-child(even) {
+          background-color: #ffffff;
+        }
+        </style>
+<body>
+<div class="header-top">
+    <!-- <a href="#default" class="logo"><img src="https://i.imgur.com/JP98HE9.png" height="75px"></a> -->
+    <a href="/" class="carma" style="line-height: 60px;">car</a><a href="/" class="guys"
+                                                                   style="line-height: 60px;">amel</a>
+    <div class="header-right">
+        <a href="#about">About</a>
+        <a onClick=fbLogout()>Log Out</a>
+    </div>
+</div>
+<% include partials/headers/customer-profile.ejs %>
+<div class="top-label">
+    <h1>My Uploads</h1>
+    <!--UPLOAD NEW DOCUMENT SECTION-->
+    <div class="container">
+            <a href="/customer/<%= user._id %>/uploads/pdf">
+                <button>Add PDF</button>
+            </a>
+            <a href="/customer/<%= user._id %>/uploads/jpg">
+                <button>Add JPG</button>
+            </a>
+            <div ng-app="uploads" ng-controller="uploadsController">
+                    <br><h>Files Uploaded:</h>
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>File Name</th>
+                            <th>Description</th>
+                            <th>View</th>
+                            <th>Delete</th>
+                        </tr>
+                            <tr ng-repeat="x in uploads">
+                            <td>{{$index+1}}</td>
+                              <td>{{ x.name }}</td>
+                              <td>{{x.desc}}</td>
+                              <td><button ng-click="View($index)">View</button></td>
+                              <td><button ng-click="Delete($index)">Delete</button>
+                            </tr>
+                    </table>
+            </div>
+</div>
+</div>
+        
+</body>
+<script>
+    $(document).ready(function () {
+        $('addInfo').hide();
+        $('addNew').click(function () {
+            $('addInfo').show();
+        })
+        $('can').click(function () {
+            $('addInfo').hide();
+        })
+    })
+</script>
+</html>
